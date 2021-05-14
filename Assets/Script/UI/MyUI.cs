@@ -20,9 +20,6 @@ public class MyUI : MonoBehaviour
     public Game game;
     public UIScore score;
 
-    public Text gameScore;
-    public Text endScore;
-
 
     public void UpdateUI()
     {
@@ -50,7 +47,6 @@ public class MyUI : MonoBehaviour
     {
         game.Status = Game.GAME_STATUS.Ready;
         score.Init();
-        this.UpdateScore();
         UpdateUI();
     }
 
@@ -60,9 +56,5 @@ public class MyUI : MonoBehaviour
         UpdateUI();
     }
     
-    public void UpdateScore()
-    {
-        gameScore.text = score.Score.ToString();
-        endScore.text = score.Score.ToString();
-    }
+
 }
