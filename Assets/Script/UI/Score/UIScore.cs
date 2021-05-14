@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 /*
 */
@@ -13,12 +14,10 @@ using UnityEngine.Events;
 
 public class UIScore : MonoBehaviour
 {
-    public Game game;
-    public Player player;
-
-    public MyUI ui;
-
     public int score;
+
+    public Text gameScore;
+    public Text endScore;
 
     public int Score
     {
@@ -26,17 +25,20 @@ public class UIScore : MonoBehaviour
         set
         {
             this.score = value;
+            this.UpdateScore();
         }
     }
 
     public void Init()
     {
-        if(game.Status == Game.GAME_STATUS.Ready)
-        {
-            this.Score = 0;
-        }
+        this.Score = 0;
+        this.UpdateScore();
     }
 
-
+    public void UpdateScore()
+    {
+        gameScore.text = this.Score.ToString();
+        endScore.text = this.Score.ToString();
+    }
 
 }
