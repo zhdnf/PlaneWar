@@ -59,20 +59,23 @@ public class Player : MonoBehaviour
             return;
         }
 
-        /*** 鼠标输入 
+        /***鼠标输入 
         if (game.Status == Game.GAME_STATUS.Game)
         {
             if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log("first" + this.transform.position.y);
                 initY = this.transform.position.y;
                 rigidbodyBrid.velocity = Vector2.zero;
                 Vector2 froce = new Vector2(0, Force);
                 rigidbodyBrid.AddForce(froce, ForceMode2D.Impulse);
                 this.Fly(froce.y);
-
+                Debug.Log("second" + this.transform.position.y);
             }
         }
         ***/
+
+
         Vector2 pos = this.transform.position;
         pos.x += Input.GetAxis("Horizontal") * Time.deltaTime * speed;
         pos.y += Input.GetAxis("Vertical") * Time.deltaTime * speed;
@@ -82,6 +85,7 @@ public class Player : MonoBehaviour
         {
             Fire();
         }
+        
     }
 
 
@@ -138,16 +142,18 @@ public class Player : MonoBehaviour
     public void Dead()
     {
         this.dead = true;
+        if(rigidbodyBrid.bodyType == RigidbodyType2D.Kinematic)
+            rigidbodyBrid.bodyType = RigidbodyType2D.Dynamic;
         // 死亡时下落
         playerAnimation.DownFly();
-        
+
         // 触发函数
         if (this.OnDeath != null)
         {
             // 执行订阅函数
             this.OnDeath();
         }
-        
+
     }
 
 
@@ -159,7 +165,8 @@ public class Player : MonoBehaviour
         {
            
         }
-        else {
+        else
+        { 
             this.Dead();
         }
 
@@ -187,6 +194,10 @@ public class Player : MonoBehaviour
                 // 触发订阅活动
                 this.onScore(1);
             }
+        }
+        else if (collision.gameObject.name.Equals("Ground")){
+            if (rigidbodyBrid.bodyType == RigidbodyType2D.Dynamic)
+                rigidbodyBrid.bodyType = RigidbodyType2D.Kinematic;
         }
     }
 
