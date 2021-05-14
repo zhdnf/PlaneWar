@@ -71,7 +71,6 @@ public class Game : MonoBehaviour
     public void OnPlayerScore(int value)
     {
         score.Score += value;
-        ui.UpdateScore();
         Debug.Log("Score" + score.Score);
     }
 
