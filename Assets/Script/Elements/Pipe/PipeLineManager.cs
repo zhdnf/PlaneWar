@@ -6,7 +6,7 @@ using UnityEngine;
 */
 
 /// <summary>
-///
+/// 只产生了三个管道， 流程走完返回起点
 /// </summary>
 
 public class PipeLineManager : MonoBehaviour
@@ -15,6 +15,9 @@ public class PipeLineManager : MonoBehaviour
     Coroutine coroutine = null;
 
     public List<PipeLine> pipeList = new List<PipeLine>();
+
+    //产生管道的速度
+    public float speed = 2f;
     
     void Start()
     {
@@ -50,7 +53,7 @@ public class PipeLineManager : MonoBehaviour
                 pipeList[i].PipeLineInit();
             }
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(speed);
         }
         
         
