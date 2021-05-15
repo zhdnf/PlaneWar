@@ -29,6 +29,7 @@ public class Game : MonoBehaviour
 
 
     public PipeLineManager pipeManager;
+    public UnitManager unit;
 
     public Player player;
 
@@ -64,7 +65,8 @@ public class Game : MonoBehaviour
         this.Status = GAME_STATUS.GameOver;
         ui.GameOver();
         ground.Static();
-        this.pipeManager.PipeLineManagerStop();
+        pipeManager.PipeLineManagerStop();
+        unit.EnemyManagerStop();
     }
 
     // player的被委托事件
@@ -81,6 +83,7 @@ public class Game : MonoBehaviour
     {
         ui.GameStart();
         pipeManager.PipeLineManagerStart();
+        unit.EnemyManagerStart();
         Debug.LogFormat("StartGame: {0}", this.Status);
         ground.Active();
         player.Fly(0);
