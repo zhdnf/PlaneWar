@@ -15,6 +15,7 @@ public class UnitManager : MonoBehaviour
     public List<Enemy> enemiesList = new List<Enemy>();
 
     public Enemy enemy;
+    public Player player;
 
     Coroutine coroutine = null;
 
@@ -37,25 +38,15 @@ public class UnitManager : MonoBehaviour
     public void EnemyManagerStop()
     {
         StopCoroutine(coroutine);
-        //有时间差
-        //for (int i = 0; i < enemieslist.count; i++)
-        //{
-        //    if (enemieslist[i].gameobject == null)
-        //    {
 
-        //    }
-        //    else
-        //    {
-        //        destroy(enemieslist[i].gameobject);
-        //    }
-        //}
-        this.enemiesList.Clear();
+        this.EnemyInit();
+
     }
     IEnumerator GeneratorsEnemy()
     {
         while (true)
         {
-            GenerateEnemy();
+            GenerateEnemy(); 
             yield return new WaitForSeconds(this.speed);
         }
     }
@@ -72,6 +63,24 @@ public class UnitManager : MonoBehaviour
         this.transform.position = new Vector3(12, Random.Range(minRange, maxRange), 0);
 
     }
+    public void EnemyInit()
+    {
+        for (int i = 0; i < enemiesList.Count; i++)
+        {
+            // enemy死亡时已经销毁了对象
+            if (enemiesList[i] == null)
+            {
+                
+            }
+            else {
+                Destroy(enemiesList[i].gameObject);
+            }
+            
+
+        }
+        enemiesList.Clear();
+    }
+
 
 
 

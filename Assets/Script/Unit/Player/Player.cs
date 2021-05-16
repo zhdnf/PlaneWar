@@ -34,9 +34,16 @@ public class Player : MonoBehaviour
     // 分数委托
     public UnityAction<int> onScore;
 
+    // 血量委托
+    public UnityAction<float> onHP;
 
+    
+    // 绑定子弹
     public GameObject bulletTemple;
 
+    // HP
+    public float HP = 100f;
+    
     //test
     public float Force = 5f;
     public float speed = 1f;
@@ -107,6 +114,7 @@ public class Player : MonoBehaviour
     {
         this.transform.position = initPos;
         this.dead = false;
+        this.HP = 100;
         this.Idle();
     }
 
@@ -159,18 +167,42 @@ public class Player : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D col)
     {
         Debug.Log( gameObject.name + " triggered with " + col.gameObject.name);
+        Bullet bullet = col.gameObject.GetComponent<Bullet>();
         if (col.gameObject.name.Equals("ScoreArea"))
         {
-           
+
         }
-        else if(col.gameObject.name.Equals("Bullet(Clone)"))
-        {
-            Debug.Log("my bullet");
-        }
-        else
+        if (col.gameObject.name.Equals("Ground"))
         {
             this.Dead();
         }
+        if (bullet == null)
+        {
+            return;
+        }
+        if (bullet.side == SIDE.ENEMY)
+        {
+            if (this.HP > 0f)
+            {
+                if (this.onHP != null)
+                {
+                    // 触发订阅活动
+                    this.onHP(50f);
+                    this.HP -= 50f;
+                }
+            }
+            else
+            {
+                this.Dead();
+            }
+        }
+
+        // 名字方式触发
+        //    if (col.gameObject.name.Equals("Bullet(Clone)"))
+        //{
+        //    Debug.Log("my bullet");
+        //}
+
 
     }
 
@@ -178,15 +210,7 @@ public class Player : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         Debug.Log(gameObject.name + " collided with " + col.gameObject.name);
-        Bullet bullet = col.gameObject.GetComponent<Bullet>();
-        if(bullet == null)
-        {
-            return;
-        }
-        if(bullet.side == SIDE.ENEMY)
-        {
-            this.Dead();
-        }
+        this.Dead();
 
     }
 
@@ -203,7 +227,8 @@ public class Player : MonoBehaviour
                 this.onScore(1);
             }
         }
-        else if (collision.gameObject.name.Equals("Ground")){
+        else if (collision.gameObject.name.Equals("Ground"))
+        {
             if (rigidbodyBrid.bodyType == RigidbodyType2D.Dynamic)
                 rigidbodyBrid.bodyType = RigidbodyType2D.Kinematic;
         }

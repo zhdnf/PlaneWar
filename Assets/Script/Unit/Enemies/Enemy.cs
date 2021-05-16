@@ -21,19 +21,12 @@ public class Enemy : MonoBehaviour
     public PlayerAnimation playerAnimation;
 
 
-    // 记录死亡状态
-    public bool dead = false;
-    // 死亡委托
-    public delegate void DeathModify();
-    public event DeathModify OnDeath;
-
     public GameObject bulletTemple;
 
     public float minRange = -3;
     public float maxRange = 3;
 
     //test
-    public float Force = 5f;
     public float speed = 5f;
     public float fireRate = 10f;
     public float fireTimer = 0f;
@@ -48,16 +41,16 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        // if (this.dead == true)
-        initY = this.transform.position.y;
-        destoryTimer += Time.deltaTime;
-        if(destoryTimer > 6)
+        // 在屏幕外就删除
+        if (Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(this.transform.position)) == false)
         {
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 1f);
         }
+        initY = this.transform.position.y;
         this.transform.position += new Vector3(-1 * Time.deltaTime * speed, 0, 0);
         fireTimer += Time.deltaTime;
         Fire();
+
 
 
     }
@@ -88,8 +81,8 @@ public class Enemy : MonoBehaviour
     // player的状态方法
     public void Init()
     {
-        this.dead = false;
         //this.Idle();
+        this.transform.localPosition = new Vector3(0, Random.Range(minRange, maxRange), 0);
         this.Fly(this.transform.position.y);
     }
 
@@ -122,23 +115,13 @@ public class Enemy : MonoBehaviour
 
     public void Dead()
     {
-        this.dead = true;
 
         if (rigidbodyBrid.bodyType == RigidbodyType2D.Kinematic)
             rigidbodyBrid.bodyType = RigidbodyType2D.Dynamic;
         
         // 死亡时下落(暂替死亡动画)
-        playerAnimation.DownFly();
-        
-
-
-        // 触发函数
-        if (this.OnDeath != null)
-        {
-            // 执行订阅函数
-            this.OnDeath();
-        }
-
+        // playerAnimation.DownFly();
+       
         Destroy(this.gameObject, 0.1f);
     }
 
