@@ -17,8 +17,10 @@ public class MyUI : MonoBehaviour
     public GameObject panelGame;
     public GameObject panelGameOver;
 
+
     public Game game;
     public UIScore score;
+    public Hp hp;
 
 
     public void UpdateUI()
@@ -39,6 +41,7 @@ public class MyUI : MonoBehaviour
     public void GameStart()
     {
         game.Status = Game.GAME_STATUS.Game;
+        hp.Init();
         UpdateUI();
     }
 
@@ -53,6 +56,7 @@ public class MyUI : MonoBehaviour
     public void GameOver()
     {
         game.Status = Game.GAME_STATUS.GameOver;
+        hp.SetActive(false);
         UpdateUI();
     }
     
