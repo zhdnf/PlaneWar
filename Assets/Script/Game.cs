@@ -32,25 +32,32 @@ public class Game : MonoBehaviour
     public UnitManager unit;
 
     public Player player;
+    public Enemy enemy;
 
     public GroundAnimation ground;
 
     public MyUI ui;
     public UIScore score;
+    public Hp hp;
 
 
     void Start()
     {
+
         ui.Init();
         player.Idle();
         ground.Static();
+
         Debug.Log(this.status);
 
         // 添加分数委托
         player.onScore += OnPlayerScore;
         
         // 添加死亡委托
-        player.OnDeath += Player_onDeath;
+        player.OnDeath += Player_onDeath;       
+
+        // 添加血量委托
+        player.onHP += OnPlayerHp;
 
         
     }
@@ -69,11 +76,18 @@ public class Game : MonoBehaviour
         unit.EnemyManagerStop();
     }
 
-    // player的被委托事件
+
+    // 问题：放在其他Score类，执行错误
+    // player的被委托事件  
     public void OnPlayerScore(int value)
     {
         score.Score += value;
         Debug.Log("Score" + score.Score);
+    }
+
+    public void OnPlayerHp(float damage)
+    {
+        hp.HP -= damage;
     }
 
 
