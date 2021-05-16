@@ -34,6 +34,8 @@ public class PipeLineManager : MonoBehaviour
     public void PipeLineManagerStop()
     {
         StopCoroutine(coroutine);
+        ////  删除管道
+        //this.Init();
         for (int i = 0; i < pipeList.Count; i++)
         {
             pipeList[i].enabled = false;

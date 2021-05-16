@@ -21,6 +21,8 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         this.transform.position += new Vector3(speed * Time.deltaTime * direction, 0, 0);
+
+        // 子弹在屏幕外就删除
         if (Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(this.transform.position)) == false)
         {
             Destroy(this.gameObject, 1f);
