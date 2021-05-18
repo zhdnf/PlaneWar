@@ -16,3 +16,11 @@ public enum SIDE
     PLAYER=3
 }
 
+public enum ENEMYTYPE
+{
+    NORMAL,
+    SWING,
+    FAST,
+    BOSS,
+}
+

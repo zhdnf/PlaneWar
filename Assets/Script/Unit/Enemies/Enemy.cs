@@ -10,107 +10,75 @@ using UnityEngine.Events;
 ///
 /// </summary>
 
-public class Enemy : MonoBehaviour
-{
-    // player刚体
-    public Rigidbody2D rigidbodyBrid;
-
-
-    // 相对位置做状态转换动画
-    private float initY;
-    public PlayerAnimation playerAnimation;
-
-
-    public GameObject bulletTemple;
+public class Enemy : Unit 
+{ 
 
     public float minRange = -3;
     public float maxRange = 3;
 
+    public ENEMYTYPE enemyType;
+
     //test
-    public float speed = 5f;
-    public float fireRate = 10f;
-    public float fireTimer = 0f;
     public float destoryTimer = 0f;
 
 
+    private void Start()
+    {
+        this.onStart();
+    }
 
-    void Start()
+    public override void onStart()
     {
         this.Init();
     }
 
-    void Update()
+    private void Update()
+    {
+        this.onUpdate();
+    }
+
+    // 敌人的活动
+    public virtual void onUpdate()
     {
         // 在屏幕外就删除
+
+        this.initY = this.transform.position.y;
+
+        float offsetY = 0;
+        if(this.enemyType == ENEMYTYPE.SWING)
+        {
+            offsetY = Mathf.Sin(Time.timeSinceLevelLoad) * 0.01f;
+        }
+
+        if(this.enemyType == ENEMYTYPE.BOSS)
+        {
+            return;
+        }
+
+        this.transform.position = new Vector3(this.transform.position.x - 1 * Time.deltaTime * speed, initY + offsetY, 0);
+        fireTimer += Time.deltaTime;
+        Fire(this.bulletTemple);
+
         if (Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(this.transform.position)) == false)
         {
             Destroy(this.gameObject, 1f);
         }
-        initY = this.transform.position.y;
-        this.transform.position += new Vector3(-1 * Time.deltaTime * speed, 0, 0);
-        fireTimer += Time.deltaTime;
-        Fire();
-
-
 
     }
 
 
-    // 开火
-    public void Fire()
-    {
-        if (fireTimer > 1f / fireRate)
-        {
-            GameObject firePos = Instantiate(bulletTemple);
-            firePos.GetComponent<Bullet>().direction = -1;
-            // 代码是线子弹变颜色
-            //SpriteRenderer[] sprs = firePos.GetComponents<SpriteRenderer>();
-            //for(int i = 0; i<sprs.Length; i++)
-            //{
-            //    sprs[i].color = Color.red;
-            //}
-            firePos.transform.position = this.transform.position;
-            fireTimer = 0;
-        }
-
-    }
-
-
-
-
-    // player的状态方法
+    // Enemy的状态方法
     public void Init()
     {
         //this.Idle();
+        initY = Random.Range(minRange, maxRange);
         this.transform.localPosition = new Vector3(0, Random.Range(minRange, maxRange), 0);
         this.Fly(this.transform.position.y);
     }
 
-
-    public void Idle()
+    public virtual void Fly(float y)
     {
-        this.rigidbodyBrid.simulated = false;
-        playerAnimation.Idle();
-    }
-
-    // 飞行状态根据y来切换飞行的状态（水平， 向上， 向下）
-    public void Fly(float y)
-    {
-        this.rigidbodyBrid.simulated = true;
-
-        // 1.2暂设为阈值
-        if (y > 2 * this.initY)
-        {
-            playerAnimation.UpFly();
-        }
-        else if (y < 2 * this.initY)
-        {
-            playerAnimation.DownFly();
-        }
-        else
-        {
-            playerAnimation.LevelFly();
-        }
+        base.Fly(y);
     }
 
     public void Dead()
@@ -129,35 +97,18 @@ public class Enemy : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D col)
     {
         Debug.Log(gameObject.name + " triggered with " + col.gameObject.name);
- 
-        if (col.gameObject.name.Equals("EnemyBullet(Clone)"))
-        {
-            Debug.Log("Enemy's bullet");
-        }
-        else if (col.gameObject.name.Equals("ScoreArea"))
-        {
-
-        }
-        else
+        Bullet bullet = col.gameObject.GetComponent<Bullet>();
+        if (bullet != null && bullet.side == SIDE.PLAYER)
         {
             this.Dead();
         }
-
     }
 
 
     void OnCollisionEnter(Collision col)
     {
         Debug.Log(gameObject.name + " collided with " + col.gameObject.name);
-        Bullet bullet = col.gameObject.GetComponent<Bullet>();
-        if (bullet == null)
-        {
-            return;
-        }
-        if (bullet.side == SIDE.PLAYER)
-        {
-            this.Dead();
-        }
+
     }
 
 
@@ -171,5 +122,11 @@ public class Enemy : MonoBehaviour
                 rigidbodyBrid.bodyType = RigidbodyType2D.Kinematic;
         }
     }
+
+    protected override void BulletInit(Bullet bullet)
+    {
+        bullet.GetComponent<Bullet>().direction = Vector3.left;
+    }
+
 
 }

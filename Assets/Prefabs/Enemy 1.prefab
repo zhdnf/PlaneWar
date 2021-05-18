@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -5394543522515440592}
   - component: {fileID: -7134989875114375530}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4394853419971992150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.849048, y: 0.3512454, z: 0}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
   m_LocalScale: {x: -2, y: 2, z: 2}
   m_Children:
   - {fileID: 4394853421182706294}
@@ -123,12 +123,12 @@ MonoBehaviour:
   bossAnimation: {fileID: 0}
   bulletTemple: {fileID: 3794722498711237608, guid: e792d94ae4811ac4b840a4150d5495d9,
     type: 3}
-  speed: 5
-  fireRate: 3
-  fireTimer: 0.0145539995
+  speed: 7
+  fireRate: 4
+  fireTimer: 0
   minRange: -3
   maxRange: 3
-  enemyType: 0
+  enemyType: 1
   destoryTimer: 0
 --- !u!1 &4394853420235140581
 GameObject:
@@ -201,7 +201,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a40ed18183c6a2c4e98d8d3208facccc, type: 3}
-  m_Color: {r: 0.9433962, g: 0.43164828, b: 0.43164828, a: 1}
+  m_Color: {r: 0.7411765, g: 0.8196079, b: 0.27450982, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -282,7 +282,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 6a6884c5a9ca083498515433a541aea5, type: 3}
-  m_Color: {r: 0.745283, g: 0.31287822, b: 0.31287822, a: 1}
+  m_Color: {r: 0.6156863, g: 0.6784314, b: 0.227451, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -365,7 +365,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 76ade4f2de800a745b8aeef9ca0d6af0, type: 3}
-  m_Color: {r: 0.9528302, g: 0.32809716, b: 0.32809716, a: 1}
+  m_Color: {r: 0.86045176, g: 0.9529412, b: 0.32941175, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

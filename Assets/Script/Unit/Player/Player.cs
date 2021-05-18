@@ -11,25 +11,9 @@ using UnityEngine.Events;
 /// player交互相关的方法
 /// </summary>
 
-public class Player : MonoBehaviour
+public class Player : Unit
 {
-    // player刚体
-    public Rigidbody2D rigidbodyBrid;
 
-    // 记录游戏开始的初始位置
-    private Vector3 initPos;
-
-    // 相对位置做状态转换动画
-    private float initY;
-    public PlayerAnimation playerAnimation;
-
-
-    // 记录死亡状态
-    public bool dead = false;
-    // 死亡委托
-    public delegate void DeathModify();
-    public event DeathModify OnDeath;
-  
 
     // 分数委托
     public UnityAction<int> onScore;
@@ -37,27 +21,31 @@ public class Player : MonoBehaviour
     // 血量委托
     public UnityAction<float> onHP;
 
-    
-    // 绑定子弹
-    public GameObject bulletTemple;
+    // 死亡委托
+    public delegate void DeathModify();
+    public event DeathModify OnDeath;
 
-    // HP
-    public float HP = 100f;
-    
+
     //test
     public float Force = 5f;
-    public float speed = 1f;
-    public float fireRate = 10f;
-    public float fireTimer = 0f;
 
+    private void Start()
+    {
+        this.onStart();
+    }
 
-
-    void Start()
-    {   
+    public override void onStart()
+    {
+        this.Init();
         initPos = this.transform.position;
     }
 
-    void Update()
+
+    private void Update()
+    {
+        this.onUpdate();
+    }
+    public override void onUpdate()
     {
         if (this.dead == true)
         {
@@ -88,25 +76,10 @@ public class Player : MonoBehaviour
         fireTimer += Time.deltaTime;
         if (Input.GetButtonDown("Fire1"))
         {
-            Fire();
-        }
-        
-    }
-
-
-    // 开火
-    public void Fire()
-    {
-        if(fireTimer > 1f / fireRate)
-        {
-            GameObject firePos = Instantiate(bulletTemple);
-            firePos.transform.position = this.transform.position;
-            fireTimer = 0;
+            //Fire(this.bulletTemple); 
         }
 
     }
-
-
 
 
     // player的状态方法
@@ -116,39 +89,16 @@ public class Player : MonoBehaviour
         this.dead = false;
         this.HP = 100;
         this.Idle();
+ 
     }
 
-   
-    public void Idle()
-    {
-        this.rigidbodyBrid.simulated = false;
-        playerAnimation.Idle();
-    }
 
-    // 飞行状态根据y来切换飞行的状态（水平， 向上， 向下）
-    public void Fly(float y)
-    {
-        this.rigidbodyBrid.simulated = true;
 
-        // 1.2暂设为阈值
-        if (y > 2*this.initY)
-        {
-            playerAnimation.UpFly();
-        }
-        else if (y < 2*this.initY)
-        {
-            playerAnimation.DownFly();
-        }
-        else
-        {
-            playerAnimation.LevelFly();
-        }
-    }
 
     public void Dead()
     {
         this.dead = true;
-        if(rigidbodyBrid.bodyType == RigidbodyType2D.Kinematic)
+        if (rigidbodyBrid.bodyType == RigidbodyType2D.Kinematic)
             rigidbodyBrid.bodyType = RigidbodyType2D.Dynamic;
         // 死亡时下落
         playerAnimation.DownFly();
@@ -166,21 +116,18 @@ public class Player : MonoBehaviour
     // pleyer的刚体方法
     public void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log( gameObject.name + " triggered with " + col.gameObject.name);
+        Debug.Log(gameObject.name + " triggered with " + col.gameObject.name);
         Bullet bullet = col.gameObject.GetComponent<Bullet>();
-        if (col.gameObject.name.Equals("ScoreArea"))
-        {
+        Enemy enemy = col.gameObject.GetComponent<Enemy>();
+        //if (col.gameObject.name.Equals("ScoreArea"))
+        //{
 
-        }
+        //}
         if (col.gameObject.name.Equals("Ground"))
         {
             this.Dead();
         }
-        if (bullet == null)
-        {
-            return;
-        }
-        if (bullet.side == SIDE.ENEMY)
+        if (bullet != null &&  bullet.side == SIDE.ENEMY)
         {
             if (this.HP > 0f)
             {
@@ -195,6 +142,12 @@ public class Player : MonoBehaviour
             {
                 this.Dead();
             }
+        }
+
+        if (enemy!=null)
+        {
+            this.HP = 0;
+            this.Dead();
         }
 
         // 名字方式触发
@@ -233,6 +186,7 @@ public class Player : MonoBehaviour
                 rigidbodyBrid.bodyType = RigidbodyType2D.Kinematic;
         }
     }
+
 
 
 

@@ -29,10 +29,12 @@ public class Game : MonoBehaviour
 
 
     public PipeLineManager pipeManager;
-    public UnitManager unit;
+    public UnitManager unitManager;
 
-    public Player player;
-    public Enemy enemy;
+
+    public Unit unit;
+
+
 
     public GroundAnimation ground;
 
@@ -45,19 +47,18 @@ public class Game : MonoBehaviour
     {
 
         ui.Init();
-        player.Idle();
         ground.Static();
 
         Debug.Log(this.status);
 
         // 添加分数委托
-        player.onScore += OnPlayerScore;
-        
+        unitManager.player.onScore += OnPlayerScore;
+
         // 添加死亡委托
-        player.OnDeath += Player_onDeath;       
+        unitManager.player.OnDeath += Player_onDeath;
 
         // 添加血量委托
-        player.onHP += OnPlayerHp;
+        unitManager.player.onHP += OnPlayerHp;
 
         
     }
@@ -73,7 +74,7 @@ public class Game : MonoBehaviour
         ui.GameOver();
         ground.Static();
         pipeManager.PipeLineManagerStop();
-        unit.EnemyManagerStop();
+        unitManager.EnemyManagerStop();
     }
 
 
@@ -97,10 +98,10 @@ public class Game : MonoBehaviour
     {
         ui.GameStart();
         pipeManager.PipeLineManagerStart();
-        unit.EnemyManagerStart();
+        unitManager.EnemyManagerStart();
         Debug.LogFormat("StartGame: {0}", this.Status);
         ground.Active();
-        player.Fly(0);
+        unitManager.player.Fly(0);
     }
 
     public void ReStart()
@@ -108,6 +109,6 @@ public class Game : MonoBehaviour
         ui.ReStart();
         ground.Static();
         pipeManager.Init();
-        player.Init();
+        unitManager.player.Init();
     }
 }

@@ -12,23 +12,39 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public GameObject enemyTemplate;
+    public GameObject enemy1Template;
+    public GameObject enemy2Template;
+
+
     public List<Enemy> enemiesList = new List<Enemy>();
 
     public Enemy enemy;
     public Player player;
+    public Boss boss;
 
     Coroutine coroutine = null;
 
     // 产生敌人的速度
-    public float speed=2;
+    public float speed = 0;
+    public float speed1= 1;
+    public float speed2 = 2;
+    public float speed3 = 3;
 
     public float minRange = -3;
     public float maxRange = 3;
 
-    void Start()
+    public void Start()
     {
-
+    
     }
+
+    public void Update()
+    {
+    }
+
+
+
+
     public void EnemyManagerStart()
     {
         coroutine = StartCoroutine(GeneratorsEnemy());
@@ -42,20 +58,50 @@ public class UnitManager : MonoBehaviour
         this.EnemyInit();
 
     }
+
+    int timer1 = 0;
+    int timer2 = 0;
+    int timer3 = 0;
+
     IEnumerator GeneratorsEnemy()
     {
         while (true)
         {
-            GenerateEnemy(); 
+            if(timer1 > 1)
+            {
+                speed = speed1;
+                GenerateEnemy(enemyTemplate);
+                timer1 = 0;
+            }
+            if(timer2 > 2)
+            {
+                speed = speed2;
+                GenerateEnemy(enemy1Template);
+                timer2 = 0;
+            }
+
+            if (timer3 > 3)
+            {
+                speed = speed3;
+                GenerateEnemy(enemy2Template);
+                timer3 = 0;
+            }
+
+            timer1++;
+            timer2++;
+            timer3++;
             yield return new WaitForSeconds(this.speed);
         }
     }
 
-    public void GenerateEnemy()
+    public void GenerateEnemy(GameObject template)
     {
-
+        if(template == null)
+        {
+            return;
+        }
          //实例化对象
-        GameObject enemiesObject = Instantiate(enemyTemplate, this.transform) as GameObject;
+        GameObject enemiesObject = Instantiate(template, this.transform) as GameObject;
         Enemy p = enemiesObject.GetComponent<Enemy>();
         this.enemiesList.Add(p);
 

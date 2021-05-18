@@ -9,19 +9,19 @@ using UnityEngine;
 ///
 /// </summary>
 
-public class Bullet : MonoBehaviour
+public class Bullet : Elements
 {
-    public float speed;
 
-    public SIDE side;
+    public float power = 2f;
 
-    // 1 向右 0向左
-    public int direction = 1;   
-    
+
     private void Update()
     {
-        this.transform.position += new Vector3(speed * Time.deltaTime * direction, 0, 0);
-
+        this.onUpdate();
+    }
+    public override void onUpdate()
+    {
+        this.transform.position += speed * this.direction * Time.deltaTime;
         // 子弹在屏幕外就删除
         if (Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(this.transform.position)) == false)
         {
