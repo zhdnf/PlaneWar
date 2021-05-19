@@ -45,3 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelID: 1002
   LevelName: SECOND BLOOD
+  Boss: {fileID: 1388347100, guid: afe9ac4aa060cc1498aae923d324eb06, type: 3}
+  Rules: []
+  result: 0
+  timeSinceLevelStart: 0
+  levelStartTime: 0
+  bossTimer: 50
+  timer: 0

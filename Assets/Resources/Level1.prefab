@@ -45,7 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelID: 1001
   LevelName: FRIST BLOOD
+  Boss: {fileID: 1388347100, guid: afe9ac4aa060cc1498aae923d324eb06, type: 3}
   Rules:
   - {fileID: 397317904826994400, guid: a4ef1ce47984aee46a69ced3ef82dcbc, type: 3}
   - {fileID: 4137077984611929248, guid: fb3e6af80ec866a429a43ea28da60565, type: 3}
   - {fileID: 5498173060129950658, guid: cbec711c52aeb2d43958023a27be55d8, type: 3}
+  result: 0
+  timeSinceLevelStart: 0
+  levelStartTime: 0
+  bossTimer: 60
+  timer: 0

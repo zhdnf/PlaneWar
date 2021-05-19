@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbodyBrid: {fileID: 4394853419971992145}
   death: 0
-  destoryOnDeath: 0
+  destoryOnDeath: 1
   power: 10
   bulletTemple: {fileID: 3794722498711237608, guid: e792d94ae4811ac4b840a4150d5495d9,
     type: 3}
