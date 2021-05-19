@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4394853419971992145}
   - component: {fileID: 4394853419971992146}
   - component: {fileID: 4394853419971992151}
-  - component: {fileID: -5394543522515440592}
   - component: {fileID: -7134989875114375530}
+  - component: {fileID: -3173115988630789}
   m_Layer: 0
   m_Name: Enemy 2
   m_TagString: Untagged
@@ -67,12 +67,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.21577227, y: -0.11647749}
   serializedVersion: 2
-  m_Radius: 1.6918505
+  m_Radius: 0.38681102
 --- !u!95 &4394853419971992151
 Animator:
   serializedVersion: 3
@@ -83,7 +83,7 @@ Animator:
   m_GameObject: {fileID: 4394853419971992150}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5e956febe7d01eb4c82740d772e26424, type: 2}
+  m_Controller: {fileID: 9100000, guid: c0e691d44a1c3964bbd0e8de08e3d0c7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -92,19 +92,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-5394543522515440592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4394853419971992150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654a0e5d576ac4049b6e2c5121662924, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerAnimator: {fileID: 4394853419971992151}
 --- !u!114 &-7134989875114375530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,19 +104,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ce0c016fdbb99428620ee4a5242bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dead: 0
   rigidbodyBrid: {fileID: 4394853419971992145}
-  playerAnimation: {fileID: -5394543522515440592}
-  bossAnimation: {fileID: 0}
+  death: 0
+  destoryOnDeath: 0
+  power: 0
   bulletTemple: {fileID: 3794722498711237608, guid: e792d94ae4811ac4b840a4150d5495d9,
     type: 3}
-  speed: 60
-  fireRate: 2
+  fireRate: 1
   fireTimer: 0
+  maxHP: 300
+  speed: 60
+  lifeTime: 4
   minRange: -3
   maxRange: 3
   enemyType: 2
+  direction: {x: 1, y: 0, z: 0}
   destoryTimer: 0
+--- !u!114 &-3173115988630789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4394853419971992150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd182759fda0c949bddfbafb6e2fdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyAnimator: {fileID: 4394853419971992151}
 --- !u!1 &4394853420235140581
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +202,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a40ed18183c6a2c4e98d8d3208facccc, type: 3}
   m_Color: {r: 0, g: 0.043137256, b: 0.427451, a: 1}
   m_FlipX: 0

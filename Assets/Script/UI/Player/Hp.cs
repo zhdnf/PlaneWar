@@ -50,5 +50,6 @@ public class Hp : MonoBehaviour
     public void HPUpdate(float newHp)
     {
         hpSlider.value = newHp; 
-     }
+    }
+
 }

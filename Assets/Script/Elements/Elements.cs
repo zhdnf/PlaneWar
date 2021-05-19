@@ -9,15 +9,19 @@ using UnityEngine;
 ///
 /// </summary>
 
-public class Elements : MonoBehaviour
+public class Elements : Singleton<Elements>
 {
-    public float speed;
+    Bullet bullet;
 
-    public SIDE side;
+    private void Start()
+    {
+        
+    }
 
-    // 1 向右 -1向左
-    public Vector3 direction = Vector3.zero;
+    private void Update()
+    {
 
+    }
 
     public virtual void onStart()
     {
@@ -26,6 +30,6 @@ public class Elements : MonoBehaviour
 
     public virtual void onUpdate()
     {
- 
+
     }
 }

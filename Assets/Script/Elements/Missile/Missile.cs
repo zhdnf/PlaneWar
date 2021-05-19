@@ -17,6 +17,8 @@ public class Missile : Elements
 
     public bool running = false;
 
+    public float speed = 4f;
+
     //爆炸距离
     public float distance = 0.5f;
 
@@ -73,6 +75,6 @@ public class Missile : Elements
         Instantiate(fxExplode, this.transform.position, Quaternion.identity);
 
         Player p = this.target.GetComponent<Player>();
-        p.Damgage(power);
+        p.Damage(power);
     }
 }

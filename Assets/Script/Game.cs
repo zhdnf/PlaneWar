@@ -9,8 +9,12 @@ using UnityEngine.UI;
 ///
 /// </summary>
 
-public class Game : MonoBehaviour
+public class Game : Singleton<Game>
 {
+    public Player player;
+
+    public int currentLevelID = 1;
+
     public enum GAME_STATUS{
         Ready, 
         Game, 
@@ -24,43 +28,33 @@ public class Game : MonoBehaviour
         get { return status;  }
         set { 
                 this.status = value;
+                MyUI.Instance.UpdateUI();
             }
     }
 
-
     public PipeLineManager pipeManager;
-    public UnitManager unitManager;
-
-
-    public Unit unit;
-
-
-
-    public GroundAnimation ground;
-
-    public MyUI ui;
-    public UIScore score;
-    public Hp hp;
-
 
     void Start()
     {
+        
+        MyUI.Instance.Ready();
+        AnimationManager.Instance.AnimationAction("ground", "static");
 
-        ui.Init();
-        ground.Static();
-
-        Debug.Log(this.status);
 
         // 添加分数委托
-        unitManager.player.onScore += OnPlayerScore;
+        player.onScore += MyUI.Instance.OnPlayerScore;
 
         // 添加死亡委托
-        unitManager.player.OnDeath += Player_onDeath;
+        player.OnDeath += Player_onDeath;
 
         // 添加血量委托
-        unitManager.player.onHP += OnPlayerHp;
+        player.onHP += MyUI.Instance.OnPlayerHp;
 
-        
+        //Level level1 = Resources.Load<Level>("Level1");
+        //Level level2 = Resources.Load<Level>("Level2");
+
+     
+
     }
 
     void Update()
@@ -68,47 +62,56 @@ public class Game : MonoBehaviour
 
     }
 
-    private void Player_onDeath()
+    private void Player_onDeath(Unit unit)
     {
         this.Status = GAME_STATUS.GameOver;
-        ui.GameOver();
-        ground.Static();
+        MyUI.Instance.GameOver();
+        AnimationManager.Instance.AnimationAction("ground", "static");
         pipeManager.PipeLineManagerStop();
-        unitManager.EnemyManagerStop();
+        // UnitManager.Instance.EnemyManagerStop();
     }
-
-
-    // 问题：放在其他Score类，执行错误
-    // player的被委托事件  
-    public void OnPlayerScore(int value)
-    {
-        score.Score += value;
-        Debug.Log("Score" + score.Score);
-    }
-
-    public void OnPlayerHp(float damage)
-    {
-        hp.HP -= damage;
-    }
-
-
 
 
     public void GameStart()
     {
-        ui.GameStart();
+        MyUI.Instance.GameStart();
+        this.player.Fly();
+        LoadLevel();
         pipeManager.PipeLineManagerStart();
-        unitManager.EnemyManagerStart();
-        Debug.LogFormat("StartGame: {0}", this.Status);
-        ground.Active();
-        unitManager.player.Fly(0);
+        // UnitManager.Instance.EnemyManagerStart();
+        AnimationManager.Instance.AnimationAction("ground", "active");
+    }
+
+    private void LoadLevel()
+    {
+        LevelManager.Instance.LoadLevel(this.currentLevelID);
+        LevelManager.Instance.level.OnLevelEnd = OnLevelEnd;
+    }
+
+    void OnLevelEnd(Level.LEVEL_RESULT result)
+    {
+        if(result == Level.LEVEL_RESULT.SUCCESS)
+        {
+            this.currentLevelID++;
+            LoadLevel();
+        }
+        else
+        {
+            MyUI.Instance.GameOver();
+        }
+
     }
 
     public void ReStart()
     {
-        ui.ReStart();
-        ground.Static();
+        PlayerInit();
+        MyUI.Instance.ReStart();
+        AnimationManager.Instance.AnimationAction("ground", "static");
         pipeManager.Init();
-        unitManager.player.Init();
+    }
+
+    public void PlayerInit()
+    {
+        this.player.Init();
     }
 }

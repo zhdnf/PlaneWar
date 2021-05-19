@@ -13,6 +13,22 @@ public class GroundAnimation : MonoBehaviour
 {
     public Animator groundAnimator;
 
+    public void Action(string action)
+    {
+        switch (action)
+        {
+            case "static":
+                this.Static();
+                break;
+            case "active":
+                this.Active();
+                break;
+            default:
+                Debug.LogError("action is error");
+                return;
+        }
+    }
+
     public void Static()
     {
         this.groundAnimator.SetTrigger("static");

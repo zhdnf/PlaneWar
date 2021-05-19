@@ -11,9 +11,26 @@ using UnityEngine;
 
 public class Bullet : Elements
 {
+    public float speed;
 
-    public float power = 2f;
+    public Vector3 direction = Vector3.zero;
 
+    public SIDE side;
+
+    public float power = 1;
+
+    public float lifeTime = 10f;
+
+    private void Start()
+    {
+        this.onStart();
+    }
+
+
+    public override void onStart()
+    {
+        // Destroy(this.gameObject, lifeTime);
+    }
 
     private void Update()
     {
@@ -21,11 +38,12 @@ public class Bullet : Elements
     }
     public override void onUpdate()
     {
-        this.transform.position += speed * this.direction * Time.deltaTime;
-        // 子弹在屏幕外就删除
-        if (Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(this.transform.position)) == false)
+        this.transform.position += speed * Time.deltaTime * direction;
+
+        if (!Utility.Instance.InScreen(this.transform.position))
         {
             Destroy(this.gameObject, 1f);
         }
     }
+
 }

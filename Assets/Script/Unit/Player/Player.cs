@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+
 
 /*
 */
@@ -14,18 +14,9 @@ using UnityEngine.Events;
 public class Player : Unit
 {
 
+    public Vector3 dircetion = Vector3.right;
 
-    // 分数委托
-    public UnityAction<int> onScore;
-
-    // 血量委托
-    public UnityAction<float> onHP;
-
-    // 死亡委托
-    public delegate void DeathModify();
-    public event DeathModify OnDeath;
-
-
+    private float timer;
     //test
     public float Force = 5f;
 
@@ -36,8 +27,14 @@ public class Player : Unit
 
     public override void onStart()
     {
-        this.Init();
-        initPos = this.transform.position;
+        
+        this.power = 100f;
+        this.transform.position = initPos;
+        this.death = false;
+        this.HP = 100;
+        this.power = 100;
+
+        AnimationManager.Instance.AnimationAction("player", "idle");
     }
 
 
@@ -45,13 +42,14 @@ public class Player : Unit
     {
         this.onUpdate();
     }
+
     public override void onUpdate()
     {
-        if (this.dead == true)
+        if (this.death)
         {
             return;
         }
-
+        timer += Time.deltaTime;
         /***鼠标输入 
         if (game.Status == Game.GAME_STATUS.Game)
         {
@@ -73,44 +71,42 @@ public class Player : Unit
         pos.x += Input.GetAxis("Horizontal") * Time.deltaTime * speed;
         pos.y += Input.GetAxis("Vertical") * Time.deltaTime * speed;
         this.transform.position = pos;
-        fireTimer += Time.deltaTime;
-        if (Input.GetButtonDown("Fire1"))
-        {
-            //Fire(this.bulletTemple); 
+        if (Input.GetButton("Fire1")){
+            Fire(this.bulletTemple, this.power);
         }
-
+        
     }
 
-
-    // player的状态方法
     public void Init()
     {
         this.transform.position = initPos;
-        this.dead = false;
-        this.HP = 100;
         this.Idle();
- 
+        this.death = false;
+        this.HP = 100f;
     }
 
 
 
-
-    public void Dead()
+    public override void Idle()
     {
-        this.dead = true;
-        if (rigidbodyBrid.bodyType == RigidbodyType2D.Kinematic)
-            rigidbodyBrid.bodyType = RigidbodyType2D.Dynamic;
-        // 死亡时下落
-        playerAnimation.DownFly();
-
-        // 触发函数
-        if (this.OnDeath != null)
-        {
-            // 执行订阅函数
-            this.OnDeath();
-        }
-
+        this.rigidbodyBrid.simulated = true;
+        AnimationManager.Instance.AnimationAction("player", "idle");
     }
+
+
+    public override void Fly()
+    {
+        this.rigidbodyBrid.simulated = true;
+        AnimationManager.Instance.AnimationAction("player", "fly");
+    }
+
+
+    public override void Dead()
+    {
+        base.Dead();
+        AnimationManager.Instance.AnimationAction("player", "dead");
+    }
+
 
 
     // pleyer的刚体方法
@@ -134,8 +130,8 @@ public class Player : Unit
                 if (this.onHP != null)
                 {
                     // 触发订阅活动
-                    this.onHP(50f);
-                    this.HP -= 50f;
+                    this.onHP(bullet.power);
+                    this.Damage(bullet.power);
                 }
             }
             else
@@ -170,17 +166,17 @@ public class Player : Unit
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log( gameObject.name  + " triggerred exit " + collision.gameObject.name);
-        if (collision.gameObject.name.Equals("ScoreArea"))
-        {
-            // 触发起点
-            if (this.onScore != null)
-            {
-                // 触发订阅活动
-                this.onScore(1);
-            }
-        }
-        else if (collision.gameObject.name.Equals("Ground"))
+        Debug.Log(gameObject.name + " triggerred exit " + collision.gameObject.name);
+        //if (collision.gameObject.name.Equals("ScoreArea"))
+        //{
+        //    // 触发起点
+        //    if (this.onScore != null)
+        //    {
+        //        // 触发订阅活动
+        //        this.onScore(1);
+        //    }
+        //}
+        if (collision.gameObject.name.Equals("Ground"))
         {
             if (rigidbodyBrid.bodyType == RigidbodyType2D.Dynamic)
                 rigidbodyBrid.bodyType = RigidbodyType2D.Kinematic;

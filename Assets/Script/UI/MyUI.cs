@@ -10,55 +10,63 @@ using UnityEngine.UI;
 ///
 /// </summary>
 
-public class MyUI : MonoBehaviour
+public class MyUI : Singleton<MyUI>
 {
 
     public GameObject panelReady;
     public GameObject panelGame;
     public GameObject panelGameOver;
 
-
-    public Game game;
-    public UIScore score;
-    public Hp hp;
+    public UIScore scoreObject;
+    public Hp hpObject;
 
 
     public void UpdateUI()
     {
-        this.panelReady.SetActive(game.Status == Game.GAME_STATUS.Ready);
-        this.panelGame.SetActive(game.Status == Game.GAME_STATUS.Game);
-        this.panelGameOver.SetActive(game.Status == Game.GAME_STATUS.GameOver);
+        this.panelReady.SetActive(Game.Instance.Status == Game.GAME_STATUS.Ready);
+        this.panelGame.SetActive(Game.Instance.Status == Game.GAME_STATUS.Game);
+        this.panelGameOver.SetActive(Game.Instance.Status == Game.GAME_STATUS.GameOver);
     }
 
-    public void Init()
+    public void Ready()
     {
-        game.Status = Game.GAME_STATUS.Ready;
-        UpdateUI();
+        Game.Instance.Status = Game.GAME_STATUS.Ready;
     }
     
 
     // 注意函数名与Start一致
     public void GameStart()
     {
-        game.Status = Game.GAME_STATUS.Game;
-        hp.Init();
-        UpdateUI();
+        Game.Instance.Status = Game.GAME_STATUS.Game;
+        hpObject.Init();
     }
 
 
     public void ReStart()
     {
-        game.Status = Game.GAME_STATUS.Ready;
-        score.Init();
-        UpdateUI();
+        Game.Instance.Status = Game.GAME_STATUS.Ready;
+        scoreObject.Init();
     }
 
     public void GameOver()
     {
-        game.Status = Game.GAME_STATUS.GameOver;
-        hp.SetActive(false);
-        UpdateUI();
+        Game.Instance.Status = Game.GAME_STATUS.GameOver;
+        hpObject.SetActive(false);
     }
-    
+
+    //HP与其交互
+    public void OnPlayerHp(float damage)
+    {
+        hpObject.HP -= damage;
+    }
+
+
+    // 问题：放在其他Score类，执行错误
+    // player的被委托事件  
+    public void OnPlayerScore(int value)
+    {
+        scoreObject.Score += value;
+        Debug.Log("Score" + scoreObject.Score);
+    }
 
 }
