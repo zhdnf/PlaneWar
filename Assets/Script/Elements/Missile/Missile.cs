@@ -9,7 +9,7 @@ using UnityEngine;
 ///
 /// </summary>
 
-public class Missile : Elements
+public class Missile : Bullet
 {
     public Transform target;
 
@@ -17,18 +17,17 @@ public class Missile : Elements
 
     public bool running = false;
 
-    public float speed = 4f;
-
     //爆炸距离
-    public float distance = 0.5f;
+    public float distance = 0.1f;
 
-    public float power = 5;
 
 
     private void Start()
     {
-        target = GameObject.Find("Player").GetComponent<Transform>();
- 
+        target = UnitManager.Instance.player.transform;
+        this.power = 20f;
+        this.speed = 10f;
+            
     }
 
     private void Update()
@@ -56,11 +55,11 @@ public class Missile : Elements
             //向目标前进
             this.transform.position += speed * dir * Time.deltaTime;
 
-            //// 子弹在屏幕外就删除
-            //if (Screen.safeArea.Contains(Camera.main.WorldToScreenPoint(this.transform.position)) == false)
-            //{
-            //    Destroy(this.gameObject, 1f);
-            //}
+            // 子弹在屏幕外就删除
+            if (Utility.Instance.InScreen(this.transform.position))
+            {
+                Destroy(this.gameObject, 1f);
+            }
         }
     }
 
@@ -71,10 +70,7 @@ public class Missile : Elements
 
     public void Explode()
     {
-        Destroy(this.gameObject);
+        Destroy(this.gameObject,0.2f);
         Instantiate(fxExplode, this.transform.position, Quaternion.identity);
-
-        Player p = this.target.GetComponent<Player>();
-        p.Damage(power);
     }
 }

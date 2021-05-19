@@ -9,7 +9,7 @@ using UnityEngine;
 ///
 /// </summary>
 
-public class EnemyAnimation : MonoBehaviour 
+public class EnemyAnimation : MonoBehaviour, AnimationInterface
 { 
 
     public Animator enemyAnimator;
@@ -18,9 +18,9 @@ public class EnemyAnimation : MonoBehaviour
     {
         switch (action)
         {
-            //case "idle":
-            //    this.Idle();
-            //    break;
+            case "idle":
+                this.Idle();
+                break;
             case "dead":
                 this.Dead();
                 break;
@@ -35,10 +35,10 @@ public class EnemyAnimation : MonoBehaviour
         
     }
 
-    //public void Idle()
-    //{
-    //    this.enemyAnimator.SetTrigger("idle");
-    //}
+    public void Idle()
+    {
+        this.enemyAnimator.SetTrigger("idle");
+    }
 
     public void Dead()
     {

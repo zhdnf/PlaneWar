@@ -36,10 +36,11 @@ public class Game : Singleton<Game>
 
     void Start()
     {
-        
-        MyUI.Instance.Ready();
-        AnimationManager.Instance.AnimationAction("ground", "static");
 
+        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<GroundAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("static");
+
+        MyUI.Instance.Ready();
 
         // 添加分数委托
         player.onScore += MyUI.Instance.OnPlayerScore;
@@ -64,11 +65,18 @@ public class Game : Singleton<Game>
 
     private void Player_onDeath(Unit unit)
     {
+        
+        if (player.HP <= 0)
+        {
+            UnitManager.Instance.Clear();
+        }
         this.Status = GAME_STATUS.GameOver;
         MyUI.Instance.GameOver();
-        AnimationManager.Instance.AnimationAction("ground", "static");
+        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<GroundAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("static");
         pipeManager.PipeLineManagerStop();
         // UnitManager.Instance.EnemyManagerStop();
+        StopAllCoroutines();
     }
 
 
@@ -79,12 +87,13 @@ public class Game : Singleton<Game>
         LoadLevel();
         pipeManager.PipeLineManagerStart();
         // UnitManager.Instance.EnemyManagerStart();
-        AnimationManager.Instance.AnimationAction("ground", "active");
+        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<GroundAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("active");
     }
 
     private void LoadLevel()
     {
-        LevelManager.Instance.LoadLevel(this.currentLevelID);
+        LevelManager.Instance.LoadLevel(this.currentLevelID );
         LevelManager.Instance.level.OnLevelEnd = OnLevelEnd;
     }
 
@@ -92,8 +101,11 @@ public class Game : Singleton<Game>
     {
         if(result == Level.LEVEL_RESULT.SUCCESS)
         {
-            this.currentLevelID++;
-            LoadLevel();
+            player.HP = 0;
+            MyUI.Instance.GameOver();
+            StopAllCoroutines();
+            //this.currentLevelID++;
+            //LoadLevel();
         }
         else
         {

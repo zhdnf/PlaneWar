@@ -18,7 +18,6 @@ public class AnimationManager : Singleton<AnimationManager>
 
     private void Start()
     {
-       
     }
 
     public void AnimationAction(string name, string action)

@@ -34,6 +34,12 @@ public class SpawnRule : MonoBehaviour
     // 规则逻辑
     private void Update()
     {
+        // 主角死亡什么也不干
+        if (Game.Instance.player.HP <= 0)
+        {
+            return;
+        }
+
         this.timeSinceLevelStart = Time.realtimeSinceStartup - levelStartTime;
         if(this.currentNum > this.MaxNum)
         {

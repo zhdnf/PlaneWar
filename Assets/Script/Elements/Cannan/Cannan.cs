@@ -22,12 +22,11 @@ public class Cannan : Bullet
     ////爆炸距离
     //public float distance = 0.5f;
 
-    //public float power = 5;
 
 
     //private void Start()
     //{
-    //    target = GameObject.Find("Player").GetComponent<Transform>();
+    //    target = UnitManager.Instance.player.transform;
 
     //}
 

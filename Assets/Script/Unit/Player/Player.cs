@@ -90,21 +90,25 @@ public class Player : Unit
     public override void Idle()
     {
         this.rigidbodyBrid.simulated = true;
-        AnimationManager.Instance.AnimationAction("player", "idle");
+        AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("idle");
     }
 
 
     public override void Fly()
     {
         this.rigidbodyBrid.simulated = true;
-        AnimationManager.Instance.AnimationAction("player", "fly");
+        AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("fly");
     }
 
 
     public override void Dead()
     {
+        this.HP = 0;
         base.Dead();
-        AnimationManager.Instance.AnimationAction("player", "dead");
+        AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("dead");
     }
 
 

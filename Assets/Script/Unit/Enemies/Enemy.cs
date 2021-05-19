@@ -66,20 +66,22 @@ public class Enemy : Unit
 
         if (!Utility.Instance.InScreen(this.transform.position))
         {
-            Destroy(this.gameObject, 1f);
+            this.Dead();
         }
     }
 
 
-    //public override void Fly()
-    //{
-    //    AnimationManager.Instance.AnimationAction("enemy", "idle");
-    //}
-
-    public override void Dead()
+    public virtual void Fly()
     {
-        Destroy(this.gameObject, 0.3f);
-        AnimationManager.Instance.AnimationAction("enemy", "dead");
+        AnimationStrategy.Instance.Strategy = this.GetComponent<EnemyAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("idle");
+    }
+
+    public virtual void Dead()
+    {
+        base.Dead();
+        AnimationStrategy.Instance.Strategy = this.GetComponent<EnemyAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("dead");
     }
 
 

@@ -13,8 +13,6 @@ public class Boss : Enemy
 {
     public GameObject missileTemplate;
 
-    BossAnimation bossAnimation;
-
     //机枪
     public Transform firePoint1;
     //炮台子弹
@@ -30,7 +28,7 @@ public class Boss : Enemy
     float fireTimer2 = 0;
 
     //导弹cd
-    public float UltCD = 10f;
+    public float UltCD = 3f;
     float fireTimer3 = 0;
 
 
@@ -39,10 +37,6 @@ public class Boss : Enemy
     // Boss目标
     public Unit target;
 
-    public override void Fly()
-    { 
-        return;
-    }
 
     private void Start()
     {
@@ -51,6 +45,8 @@ public class Boss : Enemy
 
     public override void onStart()
     {
+        this.death = false;
+        this.target = UnitManager.Instance.player;
         StartCoroutine(Enter());
     }
     private void Update()
@@ -98,7 +94,7 @@ public class Boss : Enemy
 
     IEnumerator UltraAttack()
     {
-        yield return MoveTo(new Vector3(5, 5, 0));
+        yield return MoveTo(new Vector3(5, 10, 0));
         yield return FireMissile();
         yield return MoveTo(new Vector3(5, 0, 0));
     }
@@ -108,9 +104,8 @@ public class Boss : Enemy
     {
         while (true)
         {
-
-            Vector3 dir = (target.transform.position - this.transform.position).normalized;
-            if (dir.magnitude <  1 )
+            Vector3 dir = (pos - this.transform.position);
+            if (dir.magnitude <  0.1f )
             {
                 break;
             }
@@ -123,13 +118,10 @@ public class Boss : Enemy
 
     IEnumerator FireMissile()
     {
-        while (true)
-        {
             //动画事件完成导弹发射
-            bossAnimation.Launch();
-            yield return new WaitForSeconds(5f);
-        }
-
+        AnimationStrategy.Instance.Strategy = this.GetComponent<BossAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("launch");
+        yield return null; 
     }
 
     void Fire2()
@@ -162,6 +154,21 @@ public class Boss : Enemy
     }
 
 
+    public override void Fly()
+    {
+        AnimationStrategy.Instance.Strategy = this.GetComponent<BossAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("fly");
+    }
+
+    public new void Dead()
+    {
+        this.death = false;
+        Unit unit = (Unit)this;
+        unit.Dead();
+        AnimationStrategy.Instance.Strategy = this.GetComponent<BossAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("dead");
+    }
+
     public void OnMissileLoad()
     {
         GameObject go = Instantiate(missileTemplate, this.firePoint3);
@@ -193,9 +200,16 @@ public class Boss : Enemy
             return;
         }
         Debug.Log("Enemy:OnTriggerEnter2D : " + col.gameObject.name + " : " + gameObject.name + " : " + Time.time);
-        if (bullet.side == SIDE.PLAYER)
+        if (bullet != null && bullet.side == SIDE.PLAYER)
         {
-            this.Damage(bullet.power);
+            if (this.HP > 0f)
+            {
+                this.Damage(bullet.power);
+            }
+            else
+            {
+                this.Dead();
+            }
         }
     }
 

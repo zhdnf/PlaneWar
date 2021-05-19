@@ -38,6 +38,7 @@ public class Unit : MonoBehaviour
 
     // 记录死亡状态
     public bool death = false;
+    // 死亡时是否消除对象
     public bool destoryOnDeath = false;
 
     // 子弹伤害
@@ -139,8 +140,8 @@ public class Unit : MonoBehaviour
             this.OnDeath(this);
         }
 
-        //if (destoryOnDeath)
-        //    Destroy(this.gameObject, 0.2f);
+        if (destoryOnDeath)
+            Destroy(this.gameObject, 0.2f);
 
     }
 

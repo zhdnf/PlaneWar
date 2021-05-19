@@ -9,7 +9,7 @@ using UnityEngine;
 ///
 /// </summary>
 
-public class GroundAnimation : MonoBehaviour
+public class GroundAnimation : MonoBehaviour, AnimationInterface
 {
     public Animator groundAnimator;
 

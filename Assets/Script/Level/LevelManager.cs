@@ -12,7 +12,9 @@ using UnityEngine;
 public class LevelManager : Singleton<LevelManager>
 {
     public List<Level> Levels;
+
     public int currentLevelID = 1;
+
     public Level level;
 
     public void LoadLevel(int levelID)

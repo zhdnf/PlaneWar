@@ -9,10 +9,11 @@ using UnityEngine;
 ///
 /// </summary>
 
-public class PlayerAnimation : MonoBehaviour
+public class PlayerAnimation : MonoBehaviour, AnimationInterface
 {
 
     public Animator playerAnimator;
+    PlayerAnimation player;
 
     public void Action(string action)
     {
@@ -35,7 +36,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Start()
     {
-       
+
     }
 
 

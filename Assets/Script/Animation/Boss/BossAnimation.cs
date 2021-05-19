@@ -9,7 +9,7 @@ using UnityEngine;
 ///
 /// </summary>
 
-public class BossAnimation : MonoBehaviour
+public class BossAnimation : MonoBehaviour, AnimationInterface
 {
     public Animator boosAnimatior;
 
@@ -17,11 +17,14 @@ public class BossAnimation : MonoBehaviour
     {
         switch (action)
         {
-            case "Idle":
+            case "fly":
                 this.Idle();
                 break;
             case "launch":
                 this.Launch();
+                break;
+            case "dead":
+                this.Dead();
                 break;
             default:
                 Debug.LogError("action is error");
@@ -38,6 +41,11 @@ public class BossAnimation : MonoBehaviour
     public void Launch()
     {
         this.boosAnimatior.SetTrigger("Skill");
+    }
+
+    public void Dead()
+    {
+        this.boosAnimatior.SetTrigger("dead");
     }
 
 }
