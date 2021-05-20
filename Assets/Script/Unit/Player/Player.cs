@@ -32,9 +32,10 @@ public class Player : Unit
         this.transform.position = initPos;
         this.death = false;
         this.HP = 100;
-        this.power = 100;
+        this.power = 10;
 
-        AnimationManager.Instance.AnimationAction("player", "idle");
+        AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("idle");
     }
 
 
@@ -134,7 +135,7 @@ public class Player : Unit
                 if (this.onHP != null)
                 {
                     // 触发订阅活动
-                    this.onHP(bullet.power);
+                    this.onHP(bullet);
                     this.Damage(bullet.power);
                 }
             }

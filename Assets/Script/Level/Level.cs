@@ -74,8 +74,11 @@ public class Level : MonoBehaviour
             {
                 timer = 0;
                 boss = (Boss)UnitManager.Instance.GenerateEnemy(this.Boss.gameObject);
+                boss.HP = boss.maxHP;
+                MyUI.Instance.BossInitHp(boss.HP, true);
                 boss.Fly();
                 boss.target = UnitManager.Instance.player;
+                boss.onHP += MyUI.Instance.HpUpdate;
                 boss.OnDeath += Boss_OnDeath;
             }
         }

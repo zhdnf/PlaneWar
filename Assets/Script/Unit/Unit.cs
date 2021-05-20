@@ -29,7 +29,7 @@ public class Unit : MonoBehaviour
     // 分数委托
     public UnityAction<int> onScore;
     // 血量委托
-    public UnityAction<float> onHP;
+    public UnityAction<Bullet> onHP;
 
 
     //// 相对位置做状态转换动画

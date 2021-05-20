@@ -14,7 +14,7 @@ public class Hp : MonoBehaviour
 {
     public GameObject panelHP;
     public Slider hpSlider;
-    private float hp = 100f;
+    private float hp;
 
     public float HP
     {
@@ -29,9 +29,14 @@ public class Hp : MonoBehaviour
        
     }
 
-    public void Init()
+    public void Init(float hp)
     {
-        HPUpdate(100f);
+        if(hp > 100)
+        {
+            hpSlider.maxValue = hp;
+        }
+
+        this.HP = hp;
         this.SetActive(true);
     }
 

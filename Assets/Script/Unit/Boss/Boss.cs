@@ -45,6 +45,7 @@ public class Boss : Enemy
 
     public override void onStart()
     {
+        this.HP = this.maxHP;
         this.death = false;
         this.target = UnitManager.Instance.player;
         StartCoroutine(Enter());
@@ -204,6 +205,7 @@ public class Boss : Enemy
         {
             if (this.HP > 0f)
             {
+                this.onHP(bullet);
                 this.Damage(bullet.power);
             }
             else

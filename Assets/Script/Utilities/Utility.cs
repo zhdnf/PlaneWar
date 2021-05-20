@@ -28,4 +28,18 @@ public class Utility : Singleton<Utility>
         }
     }
 
+
+    public void Timer(float time)
+    {
+        float timer = 0;
+        while (true)
+        {
+            timer += Time.deltaTime;
+            if (timer > time)
+            {
+                break;
+                Debug.Log(string.Format("Timer1 is up !!! time=${0}", Time.time));
+            }
+        }
+    }
 }

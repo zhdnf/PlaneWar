@@ -49,7 +49,7 @@ public class Game : Singleton<Game>
         player.OnDeath += Player_onDeath;
 
         // 添加血量委托
-        player.onHP += MyUI.Instance.OnPlayerHp;
+        player.onHP += MyUI.Instance.HpUpdate;
 
         //Level level1 = Resources.Load<Level>("Level1");
         //Level level2 = Resources.Load<Level>("Level2");
@@ -82,7 +82,10 @@ public class Game : Singleton<Game>
 
     public void GameStart()
     {
+
         MyUI.Instance.GameStart();
+        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<UIAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("start");
         this.player.Fly();
         LoadLevel();
         pipeManager.PipeLineManagerStart();
@@ -103,6 +106,8 @@ public class Game : Singleton<Game>
         {
             player.HP = 0;
             MyUI.Instance.GameOver();
+            AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<UIAnimation>();
+            AnimationStrategy.Instance.Strategy.Action("end");
             StopAllCoroutines();
             //this.currentLevelID++;
             //LoadLevel();
@@ -118,7 +123,8 @@ public class Game : Singleton<Game>
     {
         PlayerInit();
         MyUI.Instance.ReStart();
-        AnimationManager.Instance.AnimationAction("ground", "static");
+        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<GroundAnimation>();
+        AnimationStrategy.Instance.Strategy.Action("static");
         pipeManager.Init();
     }
 

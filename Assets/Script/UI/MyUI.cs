@@ -16,21 +16,27 @@ public class MyUI : Singleton<MyUI>
     public GameObject panelReady;
     public GameObject panelGame;
     public GameObject panelGameOver;
+    public GameObject UIAnimation;
 
     public UIScore scoreObject;
-    public Hp hpObject;
+    public Hp player;
+    public Hp boss;
 
 
     public void UpdateUI()
     {
         this.panelReady.SetActive(Game.Instance.Status == Game.GAME_STATUS.Ready);
         this.panelGame.SetActive(Game.Instance.Status == Game.GAME_STATUS.Game);
+        this.UIAnimation.SetActive(Game.Instance.Status == Game.GAME_STATUS.Game || Game.Instance.Status == Game.GAME_STATUS.GameOver);
         this.panelGameOver.SetActive(Game.Instance.Status == Game.GAME_STATUS.GameOver);
+
     }
 
     public void Ready()
     {
         Game.Instance.Status = Game.GAME_STATUS.Ready;
+        player.SetActive(false);
+        boss.SetActive(false);
     }
     
 
@@ -38,7 +44,7 @@ public class MyUI : Singleton<MyUI>
     public void GameStart()
     {
         Game.Instance.Status = Game.GAME_STATUS.Game;
-        hpObject.Init();
+        player.Init(100f);
     }
 
 
@@ -51,13 +57,24 @@ public class MyUI : Singleton<MyUI>
     public void GameOver()
     {
         Game.Instance.Status = Game.GAME_STATUS.GameOver;
-        hpObject.SetActive(false);
+        player.SetActive(false);
     }
 
     //HP与其交互
-    public void OnPlayerHp(float damage)
+    public void HpUpdate(Bullet bullet)
     {
-        hpObject.HP -= damage;
+        switch(bullet.side)
+        {
+            case SIDE.ENEMY:
+                player.HP -= bullet.power;
+                break;
+            case SIDE.PLAYER:
+                boss.HP -= bullet.power;
+                break;
+            default:
+                Debug.LogError("bullet's Side Error");
+                return;
+        }
     }
 
 
@@ -69,4 +86,10 @@ public class MyUI : Singleton<MyUI>
         Debug.Log("Score" + scoreObject.Score);
     }
 
+   
+    public void BossInitHp(float hp, bool active)
+    {
+        boss.Init(hp);
+        boss.SetActive(active);
+    }
 }
