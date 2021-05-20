@@ -53,5 +53,5 @@ MonoBehaviour:
   result: 0
   timeSinceLevelStart: 0
   levelStartTime: 0
-  bossTimer: 60
+  bossTimer: 10
   timer: 0
