@@ -93,7 +93,8 @@ MonoBehaviour:
     type: 3}
   fireRate: 1
   fireTimer: 0.0145539995
-  maxHP: 100
+  maxHP: 10
+  score: 100
   speed: 5
   lifeTime: 4
   minRange: -3

@@ -17,6 +17,7 @@ public class MyUI : Singleton<MyUI>
     public GameObject panelGame;
     public GameObject panelGameOver;
     public GameObject UIAnimation;
+    public GameObject levelName;
 
     public UIScore scoreObject;
     public Hp player;
@@ -29,7 +30,7 @@ public class MyUI : Singleton<MyUI>
         this.panelGame.SetActive(Game.Instance.Status == Game.GAME_STATUS.Game);
         this.UIAnimation.SetActive(Game.Instance.Status == Game.GAME_STATUS.Game || Game.Instance.Status == Game.GAME_STATUS.GameOver);
         this.panelGameOver.SetActive(Game.Instance.Status == Game.GAME_STATUS.GameOver);
-
+        this.levelName.SetActive(Game.Instance.Status == Game.GAME_STATUS.Game);
     }
 
     public void Ready()
@@ -44,6 +45,7 @@ public class MyUI : Singleton<MyUI>
     public void GameStart()
     {
         Game.Instance.Status = Game.GAME_STATUS.Game;
+        boss.SetActive(false);
         player.Init(100f);
     }
 
@@ -58,6 +60,7 @@ public class MyUI : Singleton<MyUI>
     {
         Game.Instance.Status = Game.GAME_STATUS.GameOver;
         player.SetActive(false);
+        boss.SetActive(false);
     }
 
     //HP与其交互
@@ -77,10 +80,8 @@ public class MyUI : Singleton<MyUI>
         }
     }
 
-
-    // 问题：放在其他Score类，执行错误
     // player的被委托事件  
-    public void OnPlayerScore(int value)
+    public void OnScore(int value)
     {
         scoreObject.Score += value;
         Debug.Log("Score" + scoreObject.Score);
@@ -91,5 +92,11 @@ public class MyUI : Singleton<MyUI>
     {
         boss.Init(hp);
         boss.SetActive(active);
+    }
+
+    public void ShowLevelName()
+    {
+        int currentId = LevelManager.Instance.currentLevelID;
+        levelName.GetComponentInChildren<Text>().text = string.Format("LEVEL  {0}", currentId.ToString());
     }
 }

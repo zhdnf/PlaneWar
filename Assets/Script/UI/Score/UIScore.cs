@@ -37,7 +37,8 @@ public class UIScore : MonoBehaviour
 
     public void UpdateScore()
     {
-        gameScore.text = this.Score.ToString();
+       
+        gameScore.text = String.Format("{0:D10}", this.Score);
         endScore.text = this.Score.ToString();
     }
 

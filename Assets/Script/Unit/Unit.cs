@@ -59,6 +59,10 @@ public class Unit : MonoBehaviour
     }
     public float maxHP = 100f;
 
+    // 击杀分数
+    public int score;
+
+
     // 速度
     public float speed = 1f;
 
@@ -138,7 +142,16 @@ public class Unit : MonoBehaviour
         {
             // 执行订阅函数
             this.OnDeath(this);
+
+            if (this.onScore != null)
+            {
+                // 触发订阅活动
+                this.onScore(this.score);
+            }
+
         }
+
+
 
         if (destoryOnDeath)
             Destroy(this.gameObject, 0.2f);

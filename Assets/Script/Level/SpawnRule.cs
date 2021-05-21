@@ -18,29 +18,32 @@ public class SpawnRule : MonoBehaviour
 
     public float HP;
     public float Attack;
+    public int Score;
 
-    float timeSinceLevelStart = 0;
+    // 游戏当前时间
+    public float timeSinceLevelStart = 0;
     float levelStartTime = 0;
 
     int currentNum = 0;
+
+    public bool isGame = false;
 
     float timer = 0;
 
     private void Start()
     {
-        this.levelStartTime = Time.realtimeSinceStartup;
     }
 
     // 规则逻辑
     private void Update()
     {
         // 主角死亡什么也不干
-        if (Game.Instance.player.HP <= 0)
+        if (Game.Instance.player.death == true)
         {
             return;
         }
 
-        this.timeSinceLevelStart = Time.realtimeSinceStartup - levelStartTime;
+        this.timeSinceLevelStart = Global.levelRunTime - levelStartTime;
         if(this.currentNum > this.MaxNum)
         {
             return;
@@ -54,12 +57,27 @@ public class SpawnRule : MonoBehaviour
                 Enemy enemy = UnitManager.Instance.GenerateEnemy(this.Monster.gameObject);
                 enemy.HP = this.HP;
                 enemy.power = this.Attack;
-                currentNum++;
+                enemy.score = this.Score;
+                enemy.OnDeath += Enemy_OnDeath;
+                enemy.onScore += MyUI.Instance.OnScore;
 
+                currentNum++;
+                
             }
         }
         
     }
 
+    public void Enemy_OnDeath(Unit sender)
+    {
 
+    }
+
+    public void Init()
+    {
+        timer = 0;
+        currentNum = 0;
+        levelStartTime = 0;
+        timeSinceLevelStart = 0;
+    }
 }

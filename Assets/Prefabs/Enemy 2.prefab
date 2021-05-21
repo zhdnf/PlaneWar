@@ -70,9 +70,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.21577227, y: -0.11647749}
+  m_Offset: {x: -0.07040799, y: -0.0301826}
   serializedVersion: 2
-  m_Radius: 0.38681102
+  m_Radius: 0.4646536
 --- !u!95 &4394853419971992151
 Animator:
   serializedVersion: 3
@@ -107,18 +107,19 @@ MonoBehaviour:
   rigidbodyBrid: {fileID: 4394853419971992145}
   death: 0
   destoryOnDeath: 1
-  power: 0
+  power: 10
   bulletTemple: {fileID: 3794722498711237608, guid: e792d94ae4811ac4b840a4150d5495d9,
     type: 3}
-  fireRate: 1
+  fireRate: 2
   fireTimer: 0
   maxHP: 300
-  speed: 60
+  score: 200
+  speed: 8
   lifeTime: 4
   minRange: -3
   maxRange: 3
-  enemyType: 2
-  direction: {x: 1, y: 0, z: 0}
+  enemyType: 1
+  direction: {x: -1, y: 0, z: 0}
   destoryTimer: 0
 --- !u!114 &-3173115988630789
 MonoBehaviour:
@@ -204,7 +205,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a40ed18183c6a2c4e98d8d3208facccc, type: 3}
-  m_Color: {r: 0, g: 0.043137256, b: 0.427451, a: 1}
+  m_Color: {r: 0.7411765, g: 0.8196079, b: 0.27450982, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -285,7 +286,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 6a6884c5a9ca083498515433a541aea5, type: 3}
-  m_Color: {r: 0, g: 0.06666667, b: 0.67058825, a: 1}
+  m_Color: {r: 0.6156863, g: 0.6784314, b: 0.227451, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -320,8 +321,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4394853421182706293}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0764, y: -0.1358, z: 0}
-  m_LocalScale: {x: 1.167883, y: 0.5539371, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4394853420235140582}
   - {fileID: 4394853420950487054}
@@ -368,7 +369,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 76ade4f2de800a745b8aeef9ca0d6af0, type: 3}
-  m_Color: {r: 0, g: 0.078063495, b: 0.8207547, a: 1}
+  m_Color: {r: 0.86045176, g: 0.9529412, b: 0.32941175, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

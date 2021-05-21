@@ -46,9 +46,12 @@ MonoBehaviour:
   LevelID: 1002
   LevelName: SECOND BLOOD
   Boss: {fileID: 1388347100, guid: afe9ac4aa060cc1498aae923d324eb06, type: 3}
-  Rules: []
+  Rules:
+  - {fileID: 5498173060129950658, guid: 7d55c2ac0d09d0b4cb66b79549bd49bc, type: 3}
+  - {fileID: 5498173060129950658, guid: cbec711c52aeb2d43958023a27be55d8, type: 3}
   result: 0
   timeSinceLevelStart: 0
   levelStartTime: 0
-  bossTimer: 50
+  bossTimer: 20
+  isGame: 0
   timer: 0

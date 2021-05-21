@@ -81,7 +81,7 @@ public class Player : Unit
     public void Init()
     {
         this.transform.position = initPos;
-        this.Idle();
+        this.Fly();
         this.death = false;
         this.HP = 100f;
     }
@@ -106,7 +106,6 @@ public class Player : Unit
 
     public override void Dead()
     {
-        this.HP = 0;
         base.Dead();
         AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
         AnimationStrategy.Instance.Strategy.Action("dead");
@@ -128,6 +127,7 @@ public class Player : Unit
         {
             this.Dead();
         }
+
         if (bullet != null &&  bullet.side == SIDE.ENEMY)
         {
             if (this.HP > 0f)
@@ -145,11 +145,12 @@ public class Player : Unit
             }
         }
 
-        if (enemy!=null)
+        if (enemy != null)
         {
-            this.HP = 0;
             this.Dead();
         }
+
+        
 
         // 名字方式触发
         //    if (col.gameObject.name.Equals("Bullet(Clone)"))
@@ -175,11 +176,11 @@ public class Player : Unit
         //if (collision.gameObject.name.Equals("ScoreArea"))
         //{
         //    // 触发起点
-        //    if (this.onScore != null)
-        //    {
-        //        // 触发订阅活动
-        //        this.onScore(1);
-        //    }
+        //if (this.onScore != null)
+        //{
+        //    // 触发订阅活动
+        //    this.onScore(1);
+        //}
         //}
         if (collision.gameObject.name.Equals("Ground"))
         {

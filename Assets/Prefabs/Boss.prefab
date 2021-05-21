@@ -666,9 +666,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.08846415, y: -0.10946715}
   serializedVersion: 2
-  m_Radius: 1.6918505
+  m_Radius: 0.34095815
 --- !u!95 &4394853419971992151
 Animator:
   serializedVersion: 3
@@ -721,7 +721,7 @@ MonoBehaviour:
     type: 3}
   fireRate: 6
   fireTimer: 0
-  maxHP: 1000
+  maxHP: 100
   speed: 5
   lifeTime: 4
   minRange: -3

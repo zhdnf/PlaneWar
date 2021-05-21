@@ -19,7 +19,7 @@ public class Bullet : Elements
 
     public float power = 1;
 
-    public float lifeTime = 10f;
+    public float lifeTime = 1f;
 
     private void Start()
     {
@@ -29,7 +29,7 @@ public class Bullet : Elements
 
     public override void onStart()
     {
-        // Destroy(this.gameObject, lifeTime);
+        Destroy(this.gameObject, lifeTime);
     }
 
     private void Update()
@@ -40,10 +40,10 @@ public class Bullet : Elements
     {
         this.transform.position += speed * Time.deltaTime * direction;
 
-        if (!Utility.Instance.InScreen(this.transform.position))
-        {
-            Destroy(this.gameObject, 1f);
-        }
+        //if (!Utility.Instance.InScreen(this.transform.position))
+        //{
+        //    Destroy(this.gameObject, 1f);
+        //}
     }
 
 }

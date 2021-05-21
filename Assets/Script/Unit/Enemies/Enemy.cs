@@ -17,9 +17,9 @@ public class Enemy : Unit
 
     public float lifeTime = 4f;
 
-
     public float minRange = -3;
     public float maxRange = 3;
+
 
     // 敌人类型
     public ENEMYTYPE enemyType;
@@ -64,10 +64,6 @@ public class Enemy : Unit
 
         Fire(this.bulletTemple, this.power);
 
-        if (!Utility.Instance.InScreen(this.transform.position))
-        {
-            this.Dead();
-        }
     }
 
 

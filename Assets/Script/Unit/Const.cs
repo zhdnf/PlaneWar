@@ -24,3 +24,8 @@ public enum ENEMYTYPE
     BOSS,
 }
 
+
+public class Global
+{
+    public static float levelRunTime = 0;
+}

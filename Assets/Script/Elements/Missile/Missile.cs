@@ -20,8 +20,6 @@ public class Missile : Bullet
     //爆炸距离
     public float distance = 0.1f;
 
-
-
     private void Start()
     {
         target = UnitManager.Instance.player.transform;
@@ -42,10 +40,12 @@ public class Missile : Bullet
         }
         if (target != null)
         {
-            //方向向量
-            Vector3 dir = (target.position - this.transform.position).normalized;
+            // 两点成的向量
+            Vector3 vector = (target.position - this.transform.position);
+            // 方向向量
+            Vector3 dir = vector.normalized;
 
-            if(dir.magnitude < distance)
+            if(vector.magnitude < distance)
             {
                 this.Explode();
             }
@@ -55,11 +55,6 @@ public class Missile : Bullet
             //向目标前进
             this.transform.position += speed * dir * Time.deltaTime;
 
-            // 子弹在屏幕外就删除
-            if (Utility.Instance.InScreen(this.transform.position))
-            {
-                Destroy(this.gameObject, 1f);
-            }
         }
     }
 

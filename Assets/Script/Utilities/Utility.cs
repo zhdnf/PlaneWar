@@ -42,4 +42,12 @@ public class Utility : Singleton<Utility>
             }
         }
     }
+
+
+
+    public void Animation(AnimationInterface strategy, string action)
+    {
+        AnimationStrategy.Instance.Strategy = strategy;
+        AnimationStrategy.Instance.Strategy.Action(action);
+    }
 }

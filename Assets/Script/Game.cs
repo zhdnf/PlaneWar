@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 /*
 */
 
@@ -36,14 +39,12 @@ public class Game : Singleton<Game>
 
     void Start()
     {
-
-        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<GroundAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("static");
+        Utility.Instance.Animation(this.GetComponentInChildren<GroundAnimation>(), "static");
 
         MyUI.Instance.Ready();
 
-        // 添加分数委托
-        player.onScore += MyUI.Instance.OnPlayerScore;
+        //// 添加分数委托
+        //player.onScore += MyUI.Instance.OnScore;
 
         // 添加死亡委托
         player.OnDeath += Player_onDeath;
@@ -51,47 +52,48 @@ public class Game : Singleton<Game>
         // 添加血量委托
         player.onHP += MyUI.Instance.HpUpdate;
 
+        this.PlayerInit();
+
         //Level level1 = Resources.Load<Level>("Level1");
         //Level level2 = Resources.Load<Level>("Level2");
 
-     
-
     }
+
 
     void Update()
     {
-
+        Global.levelRunTime += Time.deltaTime;
     }
 
     private void Player_onDeath(Unit unit)
     {
-        
+        Global.levelRunTime = 0;
         if (player.HP <= 0)
         {
             UnitManager.Instance.Clear();
         }
         this.Status = GAME_STATUS.GameOver;
         MyUI.Instance.GameOver();
-        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<GroundAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("static");
+        Utility.Instance.Animation(this.GetComponentInChildren<GroundAnimation>(), "static");
         pipeManager.PipeLineManagerStop();
         // UnitManager.Instance.EnemyManagerStop();
         StopAllCoroutines();
+        //this.GameOver();
     }
 
 
     public void GameStart()
     {
-
+        Global.levelRunTime = 0;
         MyUI.Instance.GameStart();
-        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<UIAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("start");
+        Utility.Instance.Animation(this.GetComponentInChildren<UIAnimation>(), "start");
         this.player.Fly();
         LoadLevel();
+        MyUI.Instance.ShowLevelName();
         pipeManager.PipeLineManagerStart();
         // UnitManager.Instance.EnemyManagerStart();
-        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<GroundAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("active");
+        Utility.Instance.Animation(this.GetComponentInChildren<GroundAnimation>(),"active");
+
     }
 
     private void LoadLevel()
@@ -104,30 +106,43 @@ public class Game : Singleton<Game>
     {
         if(result == Level.LEVEL_RESULT.SUCCESS)
         {
-            player.HP = 0;
-            MyUI.Instance.GameOver();
-            AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<UIAnimation>();
-            AnimationStrategy.Instance.Strategy.Action("end");
-            StopAllCoroutines();
-            //this.currentLevelID++;
-            //LoadLevel();
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            Global.levelRunTime = 0;
+            this.currentLevelID++;
+            if (this.currentLevelID > 2)
+            {
+                this.GameOver();
+            }
+            else
+            {
+                LoadLevel();
+                MyUI.Instance.ShowLevelName();
+                Utility.Instance.Animation(this.GetComponentInChildren<UIAnimation>(), "start");
+            }
+
         }
         else
         {
             MyUI.Instance.GameOver();
+            Utility.Instance.Animation(this.GetComponentInChildren<UIAnimation>(), "end");
+            StopAllCoroutines();
         }
 
     }
 
     public void ReStart()
     {
+        Application.LoadLevel(1);
         PlayerInit();
-        MyUI.Instance.ReStart();
-        AnimationStrategy.Instance.Strategy = this.GetComponentInChildren<GroundAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("static");
-        pipeManager.Init();
+        //MyUI.Instance.ReStart();
+        //Utility.Instance.Animation(this.GetComponentInChildren<GroundAnimation>(), "static");
+        //pipeManager.Init();
     }
 
+    public void GameOver()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
     public void PlayerInit()
     {
         this.player.Init();

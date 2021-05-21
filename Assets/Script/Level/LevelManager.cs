@@ -21,6 +21,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         this.level = Instantiate<Level>(Levels[levelID - 1]);
         this.currentLevelID = levelID;
+
     }
 
     private void Start()

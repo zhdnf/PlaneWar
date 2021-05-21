@@ -30,11 +30,18 @@ public class Level : MonoBehaviour
 
     // 开始时间
     public float timeSinceLevelStart = 0;
-    // 当前时间
+    // 时间差
     public float levelStartTime = 0;
+
     // Boss出场时间
     public float bossTimer = 50;
-    
+
+    // 分数
+    public int bossSocre;
+
+    // 启动器
+    public bool isGame = false;
+
     public float timer;
 
     Boss boss = null;
@@ -58,13 +65,13 @@ public class Level : MonoBehaviour
 
     private void Update()
     {
-        if(Game.Instance.player.HP <= 0)
+        if (Game.Instance.player.death == true)
         {
             return;
         }
 
-        this.timeSinceLevelStart = Time.realtimeSinceStartup - levelStartTime;
-        if(this.result != LEVEL_RESULT.NONE)
+        this.timeSinceLevelStart = Global.levelRunTime - levelStartTime;
+        if (this.result != LEVEL_RESULT.NONE)
         {
             return;
         }
@@ -78,20 +85,26 @@ public class Level : MonoBehaviour
                 MyUI.Instance.BossInitHp(boss.HP, true);
                 boss.Fly();
                 boss.target = UnitManager.Instance.player;
+                boss.score = bossSocre;
                 boss.onHP += MyUI.Instance.HpUpdate;
                 boss.OnDeath += Boss_OnDeath;
+                boss.onScore += MyUI.Instance.OnScore;
             }
         }
     }
 
     public void Boss_OnDeath(Unit sender)
     {
-        this.bossIsDead = true;
+        //this.bossIsDead = true;
+        MyUI.Instance.boss.SetActive(false);
         this.result = LEVEL_RESULT.SUCCESS;
 
         if (this.OnLevelEnd != null)
         {
             this.OnLevelEnd(this.result);
+            this.bossIsDead = false;
         }
     }
 }
+
+
