@@ -53,3 +53,5 @@ MonoBehaviour:
   Score: 100
   timeSinceLevelStart: 0
   isGame: 0
+  ItemDropRule: {fileID: 2441418487061988350, guid: 1500dc0da633df44f8693db92824bfd2,
+    type: 3}

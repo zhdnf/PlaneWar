@@ -17,8 +17,18 @@ public class Player : Unit
     public Vector3 dircetion = Vector3.right;
 
     private float timer;
+
+    // 金币数量
+    public int goldNums;
+
+    // 道具委托
+    public delegate void ItemModify(Player sender);
+    public event ItemModify OnItem;
+
     //test
     public float Force = 5f;
+
+
 
     private void Start()
     {
@@ -27,7 +37,8 @@ public class Player : Unit
 
     public override void onStart()
     {
-        
+
+        this.goldNums = 0;
         this.power = 100f;
         this.transform.position = initPos;
         this.death = false;
@@ -119,6 +130,7 @@ public class Player : Unit
         Debug.Log(gameObject.name + " triggered with " + col.gameObject.name);
         Bullet bullet = col.gameObject.GetComponent<Bullet>();
         Enemy enemy = col.gameObject.GetComponent<Enemy>();
+        Item item = col.gameObject.GetComponent<Item>();
         //if (col.gameObject.name.Equals("ScoreArea"))
         //{
 
@@ -127,6 +139,15 @@ public class Player : Unit
         {
             this.Dead();
         }
+
+        if(item != null)
+        {
+            if(this.OnItem != null)
+            {
+                OnItem(this);
+            }
+        }
+
 
         if (bullet != null &&  bullet.side == SIDE.ENEMY)
         {

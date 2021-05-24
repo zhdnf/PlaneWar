@@ -48,6 +48,7 @@ public class Game : Singleton<Game>
 
         // 添加死亡委托
         player.OnDeath += Player_onDeath;
+        player.OnItem += Player_onItem;
 
         // 添加血量委托
         player.onHP += MyUI.Instance.HpUpdate;
@@ -79,6 +80,11 @@ public class Game : Singleton<Game>
         // UnitManager.Instance.EnemyManagerStop();
         StopAllCoroutines();
         //this.GameOver();
+    }
+
+    private void Player_onItem(Player player)
+    {
+        Item.Instance.Use(player);
     }
 
 

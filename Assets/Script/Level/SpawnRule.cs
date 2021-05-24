@@ -30,8 +30,15 @@ public class SpawnRule : MonoBehaviour
 
     float timer = 0;
 
+    public ItemDropRule ItemDropRule;
+    ItemDropRule rule;
+
     private void Start()
     {
+        if(ItemDropRule != null)
+        {
+            rule = Instantiate<ItemDropRule>(ItemDropRule);
+        }
     }
 
     // 规则逻辑
@@ -70,6 +77,10 @@ public class SpawnRule : MonoBehaviour
 
     public void Enemy_OnDeath(Unit sender)
     {
+        if(ItemDropRule != null)
+        {
+            rule.Execute(sender.transform);
+        }
 
     }
 

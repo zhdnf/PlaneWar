@@ -12,9 +12,6 @@ using UnityEngine.Events;
 
 public class Unit : MonoBehaviour
 {
-
-
-
     // 对象刚体
     public Rigidbody2D rigidbodyBrid;
 
@@ -26,10 +23,14 @@ public class Unit : MonoBehaviour
     public delegate void DeathModify(Unit sender);
     public event DeathModify OnDeath;
 
+
+
     // 分数委托
     public UnityAction<int> onScore;
     // 血量委托
     public UnityAction<Bullet> onHP;
+   
+    
 
 
     //// 相对位置做状态转换动画
@@ -49,6 +50,8 @@ public class Unit : MonoBehaviour
     public float fireRate = 10f;
     /// 和子弹间隔
     public float fireTimer = 0f;
+    // 子弹发射位置
+    public Transform fireTarget;
 
     // HP
     private float hp = 100f;
@@ -63,8 +66,12 @@ public class Unit : MonoBehaviour
     public int score;
 
 
+
+
     // 速度
     public float speed = 1f;
+
+
 
 
     private void Start()
@@ -102,7 +109,7 @@ public class Unit : MonoBehaviour
             //    sprs[i].color = Color.red;
             //}
             bullet.GetComponent<Bullet>().power = power;
-            bullet.transform.position = this.transform.position;
+            bullet.transform.position = this.fireTarget.position;
             fireTimer = 0;
         }
     }

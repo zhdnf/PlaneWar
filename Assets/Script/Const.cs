@@ -24,6 +24,13 @@ public enum ENEMYTYPE
     BOSS,
 }
 
+public enum ITEMTYPE
+{
+    GLOD,
+    APPLE,
+}
+
+
 
 public class Global
 {
