@@ -78,11 +78,22 @@ public class Player : Unit
         }
         ***/
 
-
         Vector2 pos = this.transform.position;
-        pos.x += Input.GetAxis("Horizontal") * Time.deltaTime * speed;
-        pos.y += Input.GetAxis("Vertical") * Time.deltaTime * speed;
+
+        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+        {
+            pos.x += Input.GetAxis("Horizontal") * Time.deltaTime * speed;
+            pos.y += Input.GetAxis("Vertical") * Time.deltaTime * speed;
+
+            pos = ViewPoint.Instance.PlayerMoveablePosition(pos, .1f, .1f);
+        }
         this.transform.position = pos;
+
+
+
+
+
+
         if (Input.GetButton("Fire1")){
             Fire(this.bulletTemple, this.power);
         }
