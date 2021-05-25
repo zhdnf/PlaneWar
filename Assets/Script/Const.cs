@@ -30,6 +30,13 @@ public enum ITEMTYPE
     APPLE,
 }
 
+public enum BULLETTYPE
+{
+    ATOMIC,
+    NORMAL,
+    MISSILE,
+}
+
 
 
 public class Global

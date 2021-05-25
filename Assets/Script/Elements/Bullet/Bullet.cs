@@ -11,6 +11,11 @@ using UnityEngine;
 
 public class Bullet : Elements
 {
+
+    public BULLETTYPE bulletType = BULLETTYPE.NORMAL;
+
+    public GameObject fxExplode;
+
     public float speed;
 
     public Vector3 direction = Vector3.zero;
@@ -20,6 +25,8 @@ public class Bullet : Elements
     public float power = 1;
 
     public float lifeTime = 1f;
+
+    public float timer = 0;
 
     private void Start()
     {
@@ -39,6 +46,11 @@ public class Bullet : Elements
     public override void onUpdate()
     {
         this.transform.position += speed * Time.deltaTime * direction;
+        timer += Time.deltaTime;
+        if (bulletType == BULLETTYPE.ATOMIC && timer>=(lifeTime - 0.2f))
+        {
+            Instantiate(fxExplode, transform.position, Quaternion.identity);
+        }
 
         //if (!Utility.Instance.InScreen(this.transform.position))
         //{

@@ -16,6 +16,13 @@ public class Player : Unit
 
     public Vector3 dircetion = Vector3.right;
 
+    public GameObject atomicTemplate;
+    public GameObject fxExplode;
+    public float atomicLifeTime = 2f;
+    public int atomicNums;
+    public int atomicMaxNums = 2;
+    public Transform atomicTarget;
+
     private float timer;
 
     // 金币数量
@@ -24,6 +31,10 @@ public class Player : Unit
     // 道具委托
     public delegate void ItemModify(Player sender);
     public event ItemModify OnItem;
+
+    // 原子弹大招委托
+    public delegate void AtomicModify();
+    public event AtomicModify OnAtomic;
 
     //test
     public float Force = 5f;
@@ -89,13 +100,13 @@ public class Player : Unit
         }
         this.transform.position = pos;
 
-
-
-
-
-
         if (Input.GetButton("Fire1")){
             Fire(this.bulletTemple, this.power);
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Atomic();
         }
         
     }
@@ -106,8 +117,36 @@ public class Player : Unit
         this.Fly();
         this.death = false;
         this.HP = 100f;
+        this.atomicNums = this.atomicMaxNums;
     }
 
+
+    public void Atomic()
+    {
+        if(atomicNums > 0)
+        {
+            GameObject temp = Instantiate(atomicTemplate);
+            Bullet bullet = temp.GetComponent<Bullet>();
+            bullet.transform.position = this.atomicTarget.position;
+            bullet.lifeTime = atomicLifeTime;
+            bullet.fxExplode = fxExplode;
+            bullet.bulletType = BULLETTYPE.ATOMIC;
+            atomicNums--;
+            
+            if (OnAtomic != null)
+            {
+                OnAtomic.Invoke();
+            }
+            
+            
+
+
+        }
+
+
+
+
+    }
 
 
     public override void Idle()

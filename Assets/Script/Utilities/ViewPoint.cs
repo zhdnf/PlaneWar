@@ -41,13 +41,4 @@ public class ViewPoint : Singleton<ViewPoint>
         return position;
     }
 
-    public Vector2 PlayerMoveablePosition(float x, float y)
-    {
-        Vector3 position = Vector3.zero;
-        if (x > maxX) position.x = maxX;
-        if (x < minX) position.x = minX;
-        if (y > maxX) position.y = maxY;
-        if (y < minX) position.y = minY;
-        return position;
-    }
 }

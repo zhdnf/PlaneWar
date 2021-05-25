@@ -49,6 +49,8 @@ public class Game : Singleton<Game>
         // 添加死亡委托
         player.OnDeath += Player_onDeath;
         player.OnItem += Player_onItem;
+        player.OnAtomic += Player_onAtomic;
+      
 
         // 添加血量委托
         player.onHP += MyUI.Instance.HpUpdate;
@@ -85,6 +87,11 @@ public class Game : Singleton<Game>
     private void Player_onItem(Player player)
     {
         Item.Instance.Use(player);
+    }
+
+    private void Player_onAtomic()
+    {
+        MyUI.Instance.OnAtomicUse();
     }
 
 

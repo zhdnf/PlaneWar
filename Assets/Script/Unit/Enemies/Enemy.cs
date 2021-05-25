@@ -86,6 +86,12 @@ public class Enemy : Unit
     {
         Debug.Log(gameObject.name + " triggered with " + col.gameObject.name);
         Bullet bullet = col.gameObject.GetComponent<Bullet>();
+        
+        if(col.gameObject.name.Equals("Atomic(clone)"))
+        {
+            this.Dead();
+        }
+
         if (bullet != null && bullet.side == SIDE.PLAYER)
         {
             if (this.HP > 0f)
