@@ -12,7 +12,12 @@ using UnityEngine;
 public class SpawnRule : MonoBehaviour
 {
     public Unit Monster;
+    public Delivery Delivery;
+
     public float InitTime;
+    public float DeliveryInitTime;
+
+    public float deliveryTimeCycle;
     public float timeCycle;
     public int MaxNum;
 
@@ -28,7 +33,10 @@ public class SpawnRule : MonoBehaviour
 
     public bool isGame = false;
 
+    // 怪物时间
     float timer = 0;
+    // 派送器时间
+    float deliveryTime = 0;
 
     public ItemDropRule ItemDropRule;
     ItemDropRule rule;
@@ -58,6 +66,7 @@ public class SpawnRule : MonoBehaviour
         if(timeSinceLevelStart > InitTime)
         {
             timer += Time.deltaTime;
+            deliveryTime += Time.deltaTime;
             if(timer > timeCycle)
             {
                 timer = 0;
@@ -67,12 +76,16 @@ public class SpawnRule : MonoBehaviour
                 enemy.score = this.Score;
                 enemy.OnDeath += Enemy_OnDeath;
                 enemy.onScore += MyUI.Instance.OnScore;
-
                 currentNum++;
-                
+            }
+
+            if (deliveryTime > deliveryTimeCycle)
+            {
+                deliveryTime = 0;
+                Delivery delivery = ItemDelivery.Instance.GenerateItem(Delivery.gameObject);
             }
         }
-        
+
     }
 
     public void Enemy_OnDeath(Unit sender)
