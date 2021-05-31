@@ -28,6 +28,25 @@ public class Bullet : Elements
 
     public float timer = 0;
 
+    WaitForSeconds waitForSeconds;
+    public bool isDestroy = false;
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
+    {
+        waitForSeconds = new WaitForSeconds(lifeTime);
+    }
+
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
+    {
+        StartCoroutine(DeActivateCoroutine());
+    }
+
     private void Start()
     {
         this.onStart();
@@ -36,7 +55,7 @@ public class Bullet : Elements
 
     public override void onStart()
     {
-        Destroy(this.gameObject, lifeTime);
+        // Destroy(this.gameObject, lifeTime)
     }
 
     private void Update()
@@ -56,6 +75,19 @@ public class Bullet : Elements
         //{
         //    Destroy(this.gameObject, 1f);
         //}
+    }
+
+    IEnumerator DeActivateCoroutine()
+    {
+        yield return waitForSeconds;
+        if(isDestroy)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
 }

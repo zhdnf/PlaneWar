@@ -100,7 +100,8 @@ public class Unit : MonoBehaviour
         fireTimer += Time.deltaTime;
         if (fireTimer > 1f / fireRate)
         {
-            GameObject bullet = Instantiate(temple);
+            // GameObject bullet = Instantiate(temple);
+            GameObject bullet = PoolManager.Release(temple);
             //this.BulletInit(bullet.GetComponent<Bullet>());
             // 代码是线子弹变颜色
             //SpriteRenderer[] sprs = firePos.GetComponents<SpriteRenderer>();
