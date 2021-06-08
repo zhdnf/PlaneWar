@@ -28,24 +28,6 @@ public class Bullet : Elements
 
     public float timer = 0;
 
-    WaitForSeconds waitForSeconds;
-    public bool isDestroy = false;
-
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// </summary>
-    void Awake()
-    {
-        waitForSeconds = new WaitForSeconds(lifeTime);
-    }
-
-    /// <summary>
-    /// This function is called when the object becomes enabled and active.
-    /// </summary>
-    void OnEnable()
-    {
-        StartCoroutine(DeActivateCoroutine());
-    }
 
     private void Start()
     {
@@ -71,23 +53,11 @@ public class Bullet : Elements
             Instantiate(fxExplode, transform.position, Quaternion.identity);
         }
 
-        //if (!Utility.Instance.InScreen(this.transform.position))
-        //{
-        //    Destroy(this.gameObject, 1f);
-        //}
+        if (!Utility.Instance.InScreen(this.transform.position))
+        {
+            gameObject.GetComponent<DeActive>().enabled = true;
+        }
     }
 
-    IEnumerator DeActivateCoroutine()
-    {
-        yield return waitForSeconds;
-        if(isDestroy)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
-    }
 
 }

@@ -13,7 +13,13 @@ public class UnitManager : Singleton<UnitManager>
 {
 
     public Player player;
+    Transform enemyTarget;
+    Transform bossTarget;
+    Transform deliveryTarget;
+    
     public List<Enemy> enemiesList = new List<Enemy>();
+
+
 
     public void Clear()
     {
@@ -40,7 +46,7 @@ public class UnitManager : Singleton<UnitManager>
             return null;
         }
         //实例化对象
-        GameObject enemiesObject = Instantiate(templates, this.transform) as GameObject;
+        GameObject enemiesObject = PoolManager.Release(templates);
         Enemy p = enemiesObject.GetComponent<Enemy>();
         this.enemiesList.Add(p);
         return p;

@@ -64,6 +64,11 @@ public class Enemy : Unit
 
         Fire(this.bulletTemple, this.power);
 
+        if (!Utility.Instance.InScreen(this.transform.position))
+        {
+            gameObject.GetComponent<DeActive>().enabled = false;
+        }
+
     }
 
 
@@ -76,6 +81,7 @@ public class Enemy : Unit
     public virtual void Dead()
     {
         base.Dead();
+        gameObject.GetComponent<DeActive>().enabled = true;
         AnimationStrategy.Instance.Strategy = this.GetComponent<EnemyAnimation>();
         AnimationStrategy.Instance.Strategy.Action("dead");
     }

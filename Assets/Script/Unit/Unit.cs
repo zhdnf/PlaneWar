@@ -30,9 +30,6 @@ public class Unit : MonoBehaviour
     // 血量委托
     public UnityAction<Bullet> onHP;
    
-    
-
-
     //// 相对位置做状态转换动画
     //protected float initY;
 
@@ -65,13 +62,8 @@ public class Unit : MonoBehaviour
     // 击杀分数
     public int score;
 
-
-
-
     // 速度
     public float speed = 1f;
-
-
 
 
     private void Start()
@@ -115,10 +107,10 @@ public class Unit : MonoBehaviour
         }
     }
 
-    protected virtual void BulletInit(Bullet bullet)
-    {
-        bullet.direction = Vector3.right;
-    }
+    // protected virtual void BulletInit(Bullet bullet)
+    // {
+    //     bullet.direction = Vector3.right;
+    // }
 
 
 

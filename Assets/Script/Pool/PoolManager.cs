@@ -16,7 +16,9 @@ using UnityEngine;
 public class PoolManager : Singleton<PoolManager>
 {
      [SerializeField] Pool[]  playerPools;
-
+     [SerializeField] Pool[]  bulletPools;
+     [SerializeField] Pool[]  enemyPools;
+     [SerializeField] Pool[]  deliveryPools;
      static Dictionary<GameObject, Pool> dictionary;
 
     /// <summary>
@@ -27,6 +29,9 @@ public class PoolManager : Singleton<PoolManager>
     {
         dictionary = new Dictionary<GameObject, Pool>();
         Initialize(playerPools);
+        Initialize(enemyPools);
+        Initialize(deliveryPools);
+        Initialize(bulletPools);
     }
 
     void Initialize(Pool[] pools)

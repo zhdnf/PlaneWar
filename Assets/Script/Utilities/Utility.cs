@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,23 +27,6 @@ public class Utility : Singleton<Utility>
             obj.bodyType = RigidbodyType2D.Kinematic;
         }
     }
-
-
-    public void Timer(float time)
-    {
-        float timer = 0;
-        while (true)
-        {
-            timer += Time.deltaTime;
-            if (timer > time)
-            {
-                break;
-                Debug.Log(string.Format("Timer1 is up !!! time=${0}", Time.time));
-            }
-        }
-    }
-
-
 
     public void Animation(AnimationInterface strategy, string action)
     {
