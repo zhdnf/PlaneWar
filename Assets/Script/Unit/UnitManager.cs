@@ -13,43 +13,46 @@ public class UnitManager : Singleton<UnitManager>
 {
 
     public Player player;
-    Transform enemyTarget;
-    Transform bossTarget;
-    Transform deliveryTarget;
+    public Transform enemyTarget;
+    public Transform bossTarget;
+    public Transform deliveryTarget;
+
+
+    public Unit Generate(GameObject templates, string name)
+    {
+        Unit obj;
+        Vector3 pos;
     
-    public List<Enemy> enemiesList = new List<Enemy>();
 
-
-
-    public void Clear()
-    {
-        //删除当前屏幕中的对象
-        for(int i=0; i<enemiesList.Count; i++)
-        {
-            // 有可能有已删除的对象为null
-            if(this.enemiesList[i] == null)
-            {
-
-            }
-            else
-            {
-                Destroy(enemiesList[i].gameObject);
-            }
-        }
-        //this.enemiesList.Clear();
-    }
-
-    public Enemy GenerateEnemy(GameObject templates)
-    {
         if (templates == null)
         {
             return null;
         }
-        //实例化对象
-        GameObject enemiesObject = PoolManager.Release(templates);
-        Enemy p = enemiesObject.GetComponent<Enemy>();
-        this.enemiesList.Add(p);
-        return p;
+
+        GameObject unitObject = PoolManager.Release(templates);
+
+        switch(name)
+        {
+            case "Enemy":
+                obj = unitObject.GetComponent<Enemy>();
+                pos = enemyTarget.position;
+                break;
+            case "Boss":
+                obj = unitObject.GetComponent<Boss>();
+                pos = bossTarget.position;
+                break;
+            case "Delivery":
+                obj = unitObject.GetComponent<Delivery>();
+                pos = deliveryTarget.position;
+                break;
+            default:
+                Debug.LogError("name is error");
+                return null;
+        }
+        
+        obj.transform.position = pos;
+
+        return obj;
     }
 
 

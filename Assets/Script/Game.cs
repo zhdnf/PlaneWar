@@ -71,10 +71,10 @@ public class Game : Singleton<Game>
     private void Player_onDeath(Unit unit)
     {
         Global.levelRunTime = 0;
-        if (player.HP <= 0)
-        {
-            UnitManager.Instance.Clear();
-        }
+        // if (player.HP <= 0)
+        // {
+        //     UnitManager.Instance.Clear();
+        // }
         this.Status = GAME_STATUS.GameOver;
         MyUI.Instance.GameOver();
         Utility.Instance.Animation(this.GetComponentInChildren<GroundAnimation>(), "static");
@@ -100,7 +100,7 @@ public class Game : Singleton<Game>
         Global.levelRunTime = 0;
         MyUI.Instance.GameStart();
         Utility.Instance.Animation(this.GetComponentInChildren<UIAnimation>(), "start");
-        this.player.Fly();
+        // this.player.Fly(anim);
         LoadLevel();
         MyUI.Instance.ShowLevelName();
         pipeManager.PipeLineManagerStart();

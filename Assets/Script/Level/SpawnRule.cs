@@ -70,7 +70,7 @@ public class SpawnRule : MonoBehaviour
             if(timer > timeCycle)
             {
                 timer = 0;
-                Enemy enemy = UnitManager.Instance.GenerateEnemy(this.Monster.gameObject);
+                Enemy enemy = (Enemy)UnitManager.Instance.Generate(this.Monster.gameObject, "Enemy");
                 enemy.HP = this.HP;
                 enemy.power = this.Attack;
                 enemy.score = this.Score;
@@ -82,7 +82,7 @@ public class SpawnRule : MonoBehaviour
             if (deliveryTime > deliveryTimeCycle)
             {
                 deliveryTime = 0;
-                Delivery delivery = ItemDelivery.Instance.GenerateItem(Delivery.gameObject);
+                Delivery delivery = (Delivery)UnitManager.Instance.Generate(Delivery.gameObject, "Delivery");
             }
         }
 

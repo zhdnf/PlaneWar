@@ -18,7 +18,7 @@ public class EnemyAnimation : MonoBehaviour, AnimationInterface
     {
         switch (action)
         {
-            case "idle":
+            case "fly":
                 this.Idle();
                 break;
             case "dead":

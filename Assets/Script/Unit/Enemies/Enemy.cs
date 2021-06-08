@@ -38,9 +38,10 @@ public class Enemy : Unit
     public override void onStart()
     {
         // Destroy(this.gameObject, lifeTime);
+        anim = GetComponent<EnemyAnimation>();
         initY = Random.Range(minRange, maxRange);
-        this.transform.localPosition = new Vector3(0, initY, 0);
-        this.Fly();
+        this.transform.position = new Vector3(this.transform.position.x, initY, 0);
+        this.Fly(anim);
     }
 
     private void Update()
@@ -49,7 +50,7 @@ public class Enemy : Unit
     }
 
     // 敌人的活动
-    public virtual void onUpdate()
+    public override void onUpdate()
     {
         // 定义摇摆的偏移量
         float offsetY = 0;
@@ -72,22 +73,6 @@ public class Enemy : Unit
     }
 
 
-    public virtual void Fly()
-    {
-        AnimationStrategy.Instance.Strategy = this.GetComponent<EnemyAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("idle");
-    }
-
-    public virtual void Dead()
-    {
-        base.Dead();
-        gameObject.GetComponent<DeActive>().enabled = true;
-        AnimationStrategy.Instance.Strategy = this.GetComponent<EnemyAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("dead");
-    }
-
-
-
     public virtual void  OnTriggerEnter2D(Collider2D col)
     {
         Debug.Log(gameObject.name + " triggered with " + col.gameObject.name);
@@ -95,7 +80,7 @@ public class Enemy : Unit
         
         if(col.gameObject.name.Equals("Atomic(clone)"))
         {
-            this.Dead();
+            this.Dead(anim);
         }
 
         if (bullet != null && bullet.side == SIDE.PLAYER)
@@ -106,7 +91,7 @@ public class Enemy : Unit
             }
             else
             {
-                this.Dead();
+                this.Dead(anim);
             }
         }
     }

@@ -65,6 +65,8 @@ public class Unit : MonoBehaviour
     // 速度
     public float speed = 1f;
 
+    // 动画组件
+    protected AnimationInterface anim;
 
     private void Start()
     {
@@ -73,8 +75,8 @@ public class Unit : MonoBehaviour
 
     public virtual void onStart()
     {
-
-    }
+        
+    }   
 
     private void Update()
     {
@@ -107,25 +109,13 @@ public class Unit : MonoBehaviour
         }
     }
 
-    // protected virtual void BulletInit(Bullet bullet)
-    // {
-    //     bullet.direction = Vector3.right;
-    // }
-
-
-
     // 角色状态
-    public virtual void Idle()
+    public virtual void Fly(AnimationInterface anim)
     {
-
+        Utility.Instance.Animation(anim, "fly");
     }
 
-    public virtual void Fly()
-    {
-
-    }
-
-    public virtual void Dead()
+    public virtual void Dead(AnimationInterface anim)
     {
         if (death)
         {
@@ -134,10 +124,7 @@ public class Unit : MonoBehaviour
 
         this.hp = 0;
         this.death = true;
-        //Utility.Instance.GravitySwitch(this.rigidbodyBrid);
-        //// 死亡时下落
-        //playerAnimation.DownFly();
-        // 触发函数
+
         if (this.OnDeath != null)
         {
             // 执行订阅函数
@@ -148,13 +135,11 @@ public class Unit : MonoBehaviour
                 // 触发订阅活动
                 this.onScore(this.score);
             }
-
         }
 
-
-
-        if (destoryOnDeath)
-            Destroy(this.gameObject, 0.2f);
+        Utility.Instance.Animation(anim, "dead");
+        this.GetComponent<DeActive>().enabled = true;
+        
 
     }
 
@@ -163,7 +148,7 @@ public class Unit : MonoBehaviour
         this.hp -= power;
         if(this.HP <= 0)
         {
-            this.Dead();
+            this.Dead(anim);
         }
     }
 }

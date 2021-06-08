@@ -13,6 +13,9 @@ public class Delivery : Unit
 {
 
     public float lifeTiem = 10f;
+    public float minRange = 1f; 
+    public float maxRange = 5f; 
+
     public GameObject[] itemTeplate;
     public GameObject fxExplode;
 
@@ -22,20 +25,41 @@ public class Delivery : Unit
     }
     public override void onStart()
     {
-        base.onStart();
-        this.HP = this.maxHP = 10f;
-        Utility.Instance.Animation(this.GetComponent<DeliveryAnimation>(), "Active");
+
+        this.HP = this.maxHP = 10f;   
+        this.anim = this.GetComponent<DeliveryAnimation>();
+        float initX = Random.Range(minRange, maxRange);
+        this.transform.position = new Vector3(initX, this.transform.position.y, 0);
+        // Utility.Instance.Animation(this.GetComponent<DeliveryAnimation>(), "Active");
     }
 
-    public override void Dead()
+    // public override void Dead()
+    // {
+    //     Utility.Instance.Animation(this.GetComponent<DeliveryAnimation>(), "Boom");
+    // }
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
     {
-        Utility.Instance.Animation(this.GetComponent<DeliveryAnimation>(), "Boom");
+        onUpdate();
+    }
+
+    public override void onUpdate()
+    {
+        base.onUpdate();
+        if (!Utility.Instance.InScreen(this.transform.position))
+        {
+            gameObject.GetComponent<DeActive>().enabled = false;
+        }
+        
     }
 
 
     public void OnDeliveryBoom()
     {
-        Destroy(this.gameObject);
+        //gameObject.GetComponent<DeActive>().enabled = false;
         Instantiate(fxExplode, this.transform.position, Quaternion.identity);
     }
 

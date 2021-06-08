@@ -17,10 +17,10 @@ public class DeliveryAnimation : MonoBehaviour, AnimationInterface
     {
         switch (action)
         {
-            case "Active":
+            case "fly":
                 this.Active();
                 break;
-            case "Boom":
+            case "dead":
                 this.Boom();
                 break;
             default:

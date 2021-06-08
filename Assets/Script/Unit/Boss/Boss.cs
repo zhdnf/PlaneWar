@@ -48,6 +48,7 @@ public class Boss : Enemy
         this.HP = this.maxHP;
         this.death = false;
         this.target = UnitManager.Instance.player;
+        this.anim = GetComponent<BossAnimation>();
         StartCoroutine(Enter());
     }
     private void Update()
@@ -129,46 +130,46 @@ public class Boss : Enemy
     {
         while (fireTimer2 > 1f / fireRate2)
         {
-            GameObject go = Instantiate(this.bulletTemple, firePoint2.position, Cannan.rotation);
+            GameObject go = PoolManager.Release(this.bulletTemple, firePoint2.position, Cannan.rotation);
             Bullet bullet = go.GetComponent<Bullet>();
             bullet.direction = (target.transform.position - firePoint2.position).normalized;
             fireTimer2 = 0f;
         }
     }
 
-    public override void Fire(GameObject temple, float power)
-    {
-        fireTimer += Time.deltaTime;
-        if (fireTimer > 1f / fireRate)
-        {
-            GameObject bullet = Instantiate(temple);
-            bullet.GetComponent<Bullet>().direction = Vector3.left;
-            // 代码是线子弹变颜色
-            //SpriteRenderer[] sprs = firePos.GetComponents<SpriteRenderer>();
-            //for(int i = 0; i<sprs.Length; i++)
-            //{
-            //    sprs[i].color = Color.red;
-            //}
-            bullet.transform.position = firePoint1.position;
-            fireTimer = 0;
-        }
-    }
+    // public override void Fire(GameObject temple, float power)
+    // {
+    //     fireTimer += Time.deltaTime;
+    //     if (fireTimer > 1f / fireRate)
+    //     {
+    //         GameObject bullet = Instantiate(temple);
+    //         bullet.GetComponent<Bullet>().direction = Vector3.left;
+    //         // 代码是线子弹变颜色
+    //         //SpriteRenderer[] sprs = firePos.GetComponents<SpriteRenderer>();
+    //         //for(int i = 0; i<sprs.Length; i++)
+    //         //{
+    //         //    sprs[i].color = Color.red;
+    //         //}
+    //         bullet.transform.position = firePoint1.position;
+    //         fireTimer = 0;
+    //     }
+    // }
 
 
-    public override void Fly()
-    {
-        AnimationStrategy.Instance.Strategy = this.GetComponent<BossAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("fly");
-    }
+    // public override void Fly()
+    // {
+    //     AnimationStrategy.Instance.Strategy = this.GetComponent<BossAnimation>();
+    //     AnimationStrategy.Instance.Strategy.Action("fly");
+    // }
 
-    public new void Dead()
-    {
-        this.death = false;
-        Unit unit = (Unit)this;
-        unit.Dead();
-        AnimationStrategy.Instance.Strategy = this.GetComponent<BossAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("dead");
-    }
+    // public new void Dead()
+    // {
+    //     this.death = false;
+    //     Unit unit = (Unit)this;
+    //     unit.Dead();
+    //     AnimationStrategy.Instance.Strategy = this.GetComponent<BossAnimation>();
+    //     AnimationStrategy.Instance.Strategy.Action("dead");
+    // }
 
     public void OnMissileLoad()
     {
@@ -210,7 +211,7 @@ public class Boss : Enemy
             }
             else
             {
-                this.Dead();
+                this.Dead(anim);
             }
         }
     }

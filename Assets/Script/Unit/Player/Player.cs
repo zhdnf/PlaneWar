@@ -55,9 +55,7 @@ public class Player : Unit
         this.death = false;
         this.HP = 100;
         this.power = 10;
-
-        AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("idle");
+        this.anim = this.GetComponent<PlayerAnimation>();
     }
 
 
@@ -111,10 +109,11 @@ public class Player : Unit
         
     }
 
+
     public void Init()
     {
         this.transform.position = initPos;
-        this.Fly();
+        // this.Fly(anim);
         this.death = false;
         this.HP = 100f;
         this.atomicNums = this.atomicMaxNums;
@@ -137,41 +136,22 @@ public class Player : Unit
             {
                 OnAtomic.Invoke();
             }
-            
-            
-
-
         }
-
-
-
-
     }
 
 
-    public override void Idle()
+    public void Idle(AnimationInterface anim)
     {
         this.rigidbodyBrid.simulated = true;
-        AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("idle");
+        Utility.Instance.Animation(anim, "idle");
     }
 
 
-    public override void Fly()
+    public override void Fly(AnimationInterface anim)
     {
         this.rigidbodyBrid.simulated = true;
-        AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("fly");
+        base.Fly(anim);
     }
-
-
-    public override void Dead()
-    {
-        base.Dead();
-        AnimationStrategy.Instance.Strategy = this.GetComponent<PlayerAnimation>();
-        AnimationStrategy.Instance.Strategy.Action("dead");
-    }
-
 
 
     // pleyer的刚体方法
@@ -187,7 +167,7 @@ public class Player : Unit
         //}
         if (col.gameObject.name.Equals("Ground"))
         {
-            this.Dead();
+            this.Dead(anim);
         }
 
         if(item != null)
@@ -197,7 +177,6 @@ public class Player : Unit
                 OnItem(this);
             }
         }
-
 
         if (bullet != null &&  bullet.side == SIDE.ENEMY)
         {
@@ -212,16 +191,14 @@ public class Player : Unit
             }
             else
             {
-                this.Dead();
+                this.Dead(anim);
             }
         }
 
         if (enemy != null)
         {
-            this.Dead();
+            this.Dead(anim);
         }
-
-        
 
         // 名字方式触发
         //    if (col.gameObject.name.Equals("Bullet(Clone)"))
@@ -229,14 +206,13 @@ public class Player : Unit
         //    Debug.Log("my bullet");
         //}
 
-
     }
 
 
     void OnCollisionEnter(Collision col)
     {
         Debug.Log(gameObject.name + " collided with " + col.gameObject.name);
-        this.Dead();
+        this.Dead(anim);
 
     }
 

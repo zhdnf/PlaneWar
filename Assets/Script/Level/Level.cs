@@ -80,10 +80,10 @@ public class Level : MonoBehaviour
             if (boss == null && bossIsDead == false)
             {
                 timer = 0;
-                boss = (Boss)UnitManager.Instance.GenerateEnemy(this.Boss.gameObject);
+                boss = (Boss)UnitManager.Instance.Generate(this.Boss.gameObject, "Boss");
                 boss.HP = boss.maxHP;
                 MyUI.Instance.BossInitHp(boss.HP, true);
-                boss.Fly();
+                // boss.Fly(boss.anim);
                 boss.target = UnitManager.Instance.player;
                 boss.score = bossSocre;
                 boss.onHP += MyUI.Instance.HpUpdate;
