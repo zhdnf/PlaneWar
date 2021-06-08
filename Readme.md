@@ -42,6 +42,11 @@
 - UIAnimation 简单的关卡进入动画
 - atuomic 角色大招数量显示
 
+### LevelManager
+- SpawnRule  配置生成敌人
+- DeliveryRule 配置生成空投
+- Level 生成关底boss，控制关卡开始结束
+
 ### PoolManager
 - 实现prefab加载
 
