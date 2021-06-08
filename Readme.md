@@ -56,3 +56,4 @@
 ### Utility
 - Singleton 单例实现
 - ViewPoint 主角控制在主屏幕内
+- DeActive 时间延时
