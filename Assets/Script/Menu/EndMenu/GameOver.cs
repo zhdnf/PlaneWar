@@ -12,10 +12,6 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
-    private void Start()
-    {
-        
-    }
     public void Retry()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
