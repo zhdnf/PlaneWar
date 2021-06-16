@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 378973428412869707}
   - component: {fileID: 378973428412869706}
   - component: {fileID: 378973428412869709}
+  - component: {fileID: 3848484991108570875}
   m_Layer: 0
   m_Name: Atomic
   m_TagString: Untagged
@@ -45,11 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ac3e7fa1469fb4289d794780d37ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletType: 1
+  fxExplode: {fileID: 0}
   speed: 5
   direction: {x: 1, y: 0, z: 0}
   side: 3
   power: 100
   lifeTime: 10
+  timer: 0
 --- !u!61 &378973428412869706
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -126,3 +130,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3848484991108570875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378973428412869708}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 313322fabd08abe47a3fffa367f0c13d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayTime: 0.2

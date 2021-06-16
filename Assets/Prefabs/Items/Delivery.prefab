@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7074315568692088749}
   - component: {fileID: 7074315568692088750}
   - component: {fileID: 7074315568692088751}
+  - component: {fileID: 8716921725064448460}
   m_Layer: 0
   m_Name: Delivery
   m_TagString: Untagged
@@ -60,6 +61,8 @@ MonoBehaviour:
   score: 0
   speed: 1
   lifeTiem: 10
+  minRange: 1
+  maxRange: 5
   itemTeplate:
   - {fileID: 8314614640560757015, guid: e391e34aea90af340bf46efcd43f2537, type: 3}
   - {fileID: 6222143461034324231, guid: 84990c2d5d8dbc847b4d0835761c0305, type: 3}
@@ -193,3 +196,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deliveryAnimator: {fileID: 7074315568692088749}
+--- !u!114 &8716921725064448460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7074315568692088743}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 313322fabd08abe47a3fffa367f0c13d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayTime: 0.2

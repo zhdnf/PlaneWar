@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-/*
-*/
-
 /// <summary>
 ///
 /// </summary>
@@ -68,23 +65,23 @@ public class Unit : MonoBehaviour
     // 动画组件
     protected AnimationInterface anim;
 
-    private void Start()
-    {
+    // private void Start()
+    // {
         
-    }
+    // }
 
     public virtual void onStart()
     {
-        
+        //子类重载
     }   
 
-    private void Update()
-    {
+    // private void Update()
+    // {
         
-    }
+    // }
     public virtual void onUpdate()
     {
-        
+        //子类重载
     }
 
 
